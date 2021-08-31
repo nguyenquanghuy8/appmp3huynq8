@@ -8,14 +8,14 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmp3.R;
-import com.example.appmp3.model.ItemBanner;
+import com.example.appmp3.model.Banner;
 
 import java.util.List;
 
 public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder> {
-    private final List<ItemBanner> mListItemBanner;
+    private final List<Banner> mListItemBanner;
 
-    public BannerAdapter(List<ItemBanner> mListItemBanner) {
+    public BannerAdapter(List<Banner> mListItemBanner) {
         this.mListItemBanner = mListItemBanner;
     }
 
@@ -27,8 +27,8 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(BannerAdapter.ViewHolder holder, int position) {
-        ItemBanner itemBanner = mListItemBanner.get(position);
-        holder.imgBanner.setImageResource(itemBanner.getItemBanner());
+        Banner itemBanner = mListItemBanner.get(position);
+        holder.bind(itemBanner);
     }
 
     @Override
@@ -42,6 +42,10 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             imgBanner = itemView.findViewById(R.id.imgBanner);
+        }
+
+        public void bind(Banner banner) {
+            imgBanner.setImageResource(banner.getBanner());
         }
     }
 }

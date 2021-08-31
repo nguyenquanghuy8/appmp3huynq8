@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appmp3.R;
-import com.example.appmp3.event.IEventClick;
 import com.example.appmp3.model.Category;
 
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
-    private final List<Category> categories;
-    private final IEventClick iEventClick;
+    private List<Category> categories;
+    private CategoryClickListener categoryClickListener;
     private Context context;
 
-    public CategoryAdapter(List<Category> categories, IEventClick iEventClick) {
+    public CategoryAdapter(List<Category> categories, CategoryClickListener categoryClickListener) {
         this.categories = categories;
-        this.iEventClick = iEventClick;
+        this.categoryClickListener = categoryClickListener;
     }
 
     @NonNull
@@ -32,7 +31,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
         context = parent.getContext();
-        return new ViewHolder(view, iEventClick);
+        return new ViewHolder(view, categoryClickListener);
     }
 
     @Override
@@ -48,15 +47,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvName;
-        private final ImageView ivAvatar;
-        private final IEventClick iEventClick;
+        private TextView tvName;
+        private ImageView ivAvatar;
+        private CategoryClickListener categoryClickListener;
 
-        public ViewHolder(View itemView, IEventClick iEventClick) {
+        public ViewHolder(View itemView, CategoryClickListener categoryClickListener) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
-            this.iEventClick = iEventClick;
+            this.categoryClickListener = categoryClickListener;
         }
 
         public void bind(Category category) {
@@ -65,7 +64,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             Glide.with(context)
                     .load(imgAva)
                     .into(ivAvatar);
-            itemView.setOnClickListener(v -> iEventClick.onClick(category));
+            itemView.setOnClickListener(v -> categoryClickListener.onCategoryClicked(category));
         }
+    }
+
+    public interface CategoryClickListener {
+        void onCategoryClicked(Category category);
     }
 }

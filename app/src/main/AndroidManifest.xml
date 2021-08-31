@@ -31,7 +31,7 @@
         </activity>
 
         <activity
-            android:name=".module.home.DetailCategoryActivity"
+            android:name=".module.categorydetail.DetailCategoryActivity"
             android:theme="@style/Theme.AppMp3.NoActionBar"
             android:parentActivityName=".module.home.MainActivity">
 

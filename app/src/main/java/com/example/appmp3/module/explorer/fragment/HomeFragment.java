@@ -6,55 +6,75 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmp3.R;
-import com.example.appmp3.event.IEventClick;
-import com.example.appmp3.module.explorer.adapter.HomeAdapter;
 import com.example.appmp3.model.Banner;
 import com.example.appmp3.model.Category;
 import com.example.appmp3.model.Selection;
-import com.example.appmp3.module.home.DetailCategoryActivity;
+import com.example.appmp3.module.categorydetail.DetailCategoryActivity;
+import com.example.appmp3.module.explorer.adapter.CategoryAdapter;
+import com.example.appmp3.module.explorer.adapter.HomeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class HomeFragment extends Fragment implements IEventClick {
-
-    private final List<Banner> bannerList = new ArrayList<>();
-    private final List<Selection> selectionList = new ArrayList<>();
-    private final List<Category> categories = new ArrayList<>();
+public class HomeFragment extends Fragment implements CategoryAdapter.CategoryClickListener {
+    private List<Selection> selectionList = new ArrayList<>();
     private HomeAdapter homeAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
-
-
-        RecyclerView recyclerViewHome = view.findViewById(R.id.recyclerViewHome);
-        homeAdapter = new HomeAdapter(getActivity(), categories, bannerList, selectionList, this);
-        recyclerViewHome.setAdapter(homeAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewHome.setLayoutManager(layoutManager);
-        recyclerViewHome.setHasFixedSize(true);
-        return view;
+        return inflater.inflate(R.layout.home_fragment, container, false);
     }
 
     @Override
-    public void onClick(Category category) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initRV();
+    }
+
+    private List<Category> fakeCategoriesData() {
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(new Category("Id1", "Top 100 Nhạc\n" + "Vpop Hay Nhất", "https://avatar-nct.nixcdn.com/playlist/2019/11/15/1/a/e/b/1573810360774_500.jpg"));
+        categoryList.add(new Category("Id2", "#ZINGCHART", "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/9/7/c/9/97c960ac271e94fa47c87a12aa7d3be5.jpg"));
+        return categoryList;
+    }
+
+    public List<Banner> fakeBanners() {
+        List<Banner> itemBannerList = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            List<Integer> listAvatar = new ArrayList<>();
+            Random random = new Random();
+            int position = random.nextInt(3);
+
+            listAvatar.add(R.drawable.img_banner);
+            listAvatar.add(R.drawable.img_banner2);
+            listAvatar.add(R.drawable.img_banner3);
+
+            Banner itemBanner = new Banner(listAvatar.get(position));
+            itemBannerList.add(itemBanner);
+        }
+        return itemBannerList;
+    }
+
+    private void initRV() {
+        RecyclerView recyclerViewHome = getActivity().findViewById(R.id.rvHome);
+        homeAdapter = new HomeAdapter(fakeCategoriesData(), fakeBanners(), selectionList, this);
+        recyclerViewHome.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recyclerViewHome.setAdapter(homeAdapter);
+    }
+
+    @Override
+    public void onCategoryClicked(Category category) {
         Intent intent = new Intent(getContext(), DetailCategoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("detail1", category);
-        intent.putExtras(bundle);
-//        intent.putExtra("detail1", category);
+        intent.putExtra(DetailCategoryActivity.EXTRA_CATEGORY, category);
         startActivity(intent);
     }
 }
