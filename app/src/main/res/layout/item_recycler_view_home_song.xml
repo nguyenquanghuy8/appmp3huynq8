@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="10dp">
 
     <ImageView
-        android:layout_marginTop="20dp"
         android:id="@+id/imgAvatarSong"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@color/purple_200"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp" />
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/purple_200" />
 
     <TextView
-        android:layout_marginTop="20dp"
         android:id="@+id/tvSongName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:layout_toEndOf="@+id/imgAvatarSong"
         android:layout_toRightOf="@+id/imgAvatarSong"
-        android:text="@string/song_name"
-        android:textSize="15sp" />
+        android:maxLines="2"
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvArtistName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatarSong"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="@string/song_name" />
 
     <TextView
         android:id="@+id/tvArtistName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvSongName"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/imgAvatarSong"
         android:layout_toRightOf="@+id/imgAvatarSong"
-        android:text="@string/artist_name"
-        android:textSize="15sp" />
-
-</RelativeLayout>
+        android:maxLines="2"
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatarSong"
+        app:layout_constraintTop_toBottomOf="@+id/tvSongName"
+        tools:text="@string/artist_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>

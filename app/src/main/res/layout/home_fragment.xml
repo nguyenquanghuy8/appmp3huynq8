@@ -5,15 +5,15 @@
     android:background="@drawable/img_background">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewHome"
+        android:id="@+id/rvHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <ImageView
-        android:id="@+id/imgHomeFrag"
+        android:id="@+id/ivHomeFrag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerViewHome"
-        android:background="@drawable/img_drake"/>
+        android:layout_below="@+id/rvHome"
+        android:background="@drawable/img_drake" />
 
 </RelativeLayout>

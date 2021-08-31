@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
+import com.example.appmp3.module.explorer.fragment.HomeFragment;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
-    private ArrayList<Fragment> arrayFragment = new ArrayList<>();
-    private ArrayList<String> arrayTitle = new ArrayList<>();
+    private static final int TAB_SIZE = 1;
 
     public MainPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -19,22 +18,27 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return arrayFragment.get(position);
+        switch (position) {
+            case 0:
+                return new HomeFragment();
+            default:
+                return new Fragment();
+        }
     }
 
     @Override
     public int getCount() {
-        return arrayFragment.size();
-    }
-
-    public void addFragment(Fragment fragment, String title) {
-        arrayFragment.add(fragment);
-        arrayTitle.add(title);
+        return TAB_SIZE;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return arrayTitle.get(position);
+        switch (position) {
+            case 0:
+                return "HOME";
+            default:
+                return "";
+        }
     }
 }

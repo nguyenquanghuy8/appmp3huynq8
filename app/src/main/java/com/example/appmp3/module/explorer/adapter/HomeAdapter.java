@@ -1,25 +1,19 @@
 package com.example.appmp3.module.explorer.adapter;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmp3.R;
-import com.example.appmp3.event.IEventClick;
 import com.example.appmp3.model.Banner;
 import com.example.appmp3.model.Category;
-import com.example.appmp3.model.ItemBanner;
 import com.example.appmp3.model.Selection;
-import com.example.appmp3.model.Song;
+import com.example.appmp3.ultils.SnapHelperOneByOne;
 
 import java.util.List;
 
@@ -30,15 +24,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int BANNER = 0;
     private static final int SELECTION = 1;
     private static final int CATEGORY = 2;
-    private final Context context;
-    private IEventClick iEventClick;
+    private CategoryAdapter.CategoryClickListener categoryClickListener;
+    private final int ITEM_SIZE = 3;
 
-    public HomeAdapter(Context context, List<Category> categories, List<Banner> listBanner, List<Selection> listSelection, IEventClick iEventClick) {
-        this.context = context;
+    public HomeAdapter(List<Category> categories, List<Banner> listBanner, List<Selection> listSelection, CategoryAdapter.CategoryClickListener categoryClickListener) {
         this.mCategory = categories;
         this.mListBanner = listBanner;
         this.mListSelection = listSelection;
-        this.iEventClick = iEventClick;
+        this.categoryClickListener = categoryClickListener;
     }
 
     @Override
@@ -47,10 +40,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType) {
             case 0:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_banner, parent, false);
-                return new BannerViewholder(view);
+                return new BannerViewHolder(view);
             case 1:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_selection, parent, false);
-                return new SelectionViewholder(view);
+                return new SelectionViewHolder(view);
             case 2:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_category, parent, false);
                 return new CategoryViewHolder(view);
@@ -64,64 +57,19 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case BANNER:
-                if (holder instanceof BannerViewholder) {
-                    BannerAdapter bannerAdapter = new BannerAdapter(ItemBanner.createNewBanner());
-                    ((BannerViewholder) holder).recyclerViewHomeBanner.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                    ((BannerViewholder) holder).recyclerViewHomeBanner.setAdapter(bannerAdapter);
-
-                    LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
-                    linearSnapHelper.attachToRecyclerView(((BannerViewholder) holder).recyclerViewHomeBanner);
+                if (holder instanceof BannerViewHolder) {
+                    ((BannerViewHolder) holder).bind(mListBanner);
                 }
                 break;
             case SELECTION:
-                if (holder instanceof SelectionViewholder) {
+                if (holder instanceof SelectionViewHolder) {
                 }
                 break;
             case CATEGORY:
                 if (holder instanceof CategoryViewHolder) {
-                    CategoryAdapter categoryAdapter = new CategoryAdapter(Category.createNewListCategory(), iEventClick);
-                    ((CategoryViewHolder) holder).recyclerViewHomeCategory.setHasFixedSize(true);
-                    ((CategoryViewHolder) holder).recyclerViewHomeCategory.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                    ((CategoryViewHolder) holder).recyclerViewHomeCategory.setAdapter(categoryAdapter);
-                    ((CategoryViewHolder) holder).recyclerViewHomeCategory.setNestedScrollingEnabled(false);
+                    ((CategoryViewHolder) holder).bind(mCategory);
                 }
                 break;
-        }
-    }
-
-    public static class SnapHelperOneByOne extends LinearSnapHelper {
-
-        @Override
-        public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
-
-            if (!(layoutManager instanceof RecyclerView.SmoothScroller.ScrollVectorProvider)) {
-                return RecyclerView.NO_POSITION;
-            }
-
-            final View currentView = findSnapView(layoutManager);
-
-            if (currentView == null) {
-                return RecyclerView.NO_POSITION;
-            }
-
-            LinearLayoutManager myLayoutManager = (LinearLayoutManager) layoutManager;
-
-            int position1 = myLayoutManager.findFirstVisibleItemPosition();
-            int position2 = myLayoutManager.findLastVisibleItemPosition();
-
-            int currentPosition = layoutManager.getPosition(currentView);
-
-            if (velocityX > 400) {
-                currentPosition = position2;
-            } else if (velocityX < 400) {
-                currentPosition = position1;
-            }
-
-            if (currentPosition == RecyclerView.NO_POSITION) {
-                return RecyclerView.NO_POSITION;
-            }
-
-            return currentPosition;
         }
     }
 
@@ -129,35 +77,43 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         if (position == 0) {
             return BANNER;
-        } else if (position == 1) {
-            return SELECTION;
-        } else {
-            return CATEGORY;
         }
+        if (position == 1) {
+            return SELECTION;
+        }
+        return CATEGORY;
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return ITEM_SIZE;
     }
 
-    public class BannerViewholder extends RecyclerView.ViewHolder {
+    public class BannerViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView recyclerViewHomeBanner;
 
-        @SuppressLint("ClickableViewAccessibility")
-        BannerViewholder(View view) {
+        BannerViewHolder(View view) {
             super(view);
             recyclerViewHomeBanner = view.findViewById(R.id.recyclerViewHomeBanner);
         }
+
+        public void bind(List<Banner> banners) {
+            BannerAdapter bannerAdapter = new BannerAdapter(banners);
+            recyclerViewHomeBanner.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerViewHomeBanner.setAdapter(bannerAdapter);
+
+            LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+            linearSnapHelper.attachToRecyclerView(recyclerViewHomeBanner);
+        }
     }
 
-    public class SelectionViewholder extends RecyclerView.ViewHolder {
+    public class SelectionViewHolder extends RecyclerView.ViewHolder {
         private ImageButton btnNewSong;
         private ImageButton btnCategory;
         private ImageButton btnTopSong;
         private ImageButton btnTopMV;
 
-        SelectionViewholder(View view) {
+        SelectionViewHolder(View view) {
             super(view);
             btnNewSong = view.findViewById(R.id.btnNewSong);
             btnCategory = view.findViewById(R.id.btnCategory);
@@ -172,6 +128,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public CategoryViewHolder(View itemView) {
             super(itemView);
             recyclerViewHomeCategory = itemView.findViewById(R.id.recyclerViewHomeCategory);
+        }
+
+        public void bind(List<Category> mCategories) {
+            CategoryAdapter categoryAdapter = new CategoryAdapter(mCategories, categoryClickListener);
+            recyclerViewHomeCategory.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerViewHomeCategory.setAdapter(categoryAdapter);
         }
     }
 }
