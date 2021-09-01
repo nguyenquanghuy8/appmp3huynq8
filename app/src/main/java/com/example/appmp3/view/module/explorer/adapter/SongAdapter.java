@@ -1,17 +1,13 @@
-package com.example.appmp3.module.explorer.adapter;
+package com.example.appmp3.view.module.explorer.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.appmp3.R;
 import com.example.appmp3.databinding.ItemRecyclerViewHomeSongBinding;
-import com.example.appmp3.model.Song;
+import com.example.appmp3.model.entity.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +26,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemRecyclerViewHomeSongBinding itemView = ItemRecyclerViewHomeSongBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
         return new ViewHolder(itemView);
     }
 

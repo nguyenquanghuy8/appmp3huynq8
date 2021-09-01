@@ -1,4 +1,4 @@
-package com.example.appmp3.model;
+package com.example.appmp3.model.entity;
 
 public class Song {
     private String tvSongName;

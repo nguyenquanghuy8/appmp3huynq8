@@ -1,37 +1,26 @@
-package com.example.appmp3.module.home;
+package com.example.appmp3.view.module.splash;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.appmp3.R;
-import com.example.appmp3.databinding.ActivityMainBinding;
-import com.example.appmp3.module.explorer.adapter.MainPagerAdapter;
-import com.google.android.material.tabs.TabLayout;
+import com.example.appmp3.view.module.home.MainActivity;
 
-public class MainActivity extends AppCompatActivity {
-    private MainPagerAdapter mainViewPagerAdapter;
-    private ActivityMainBinding activityMainBinding;
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        activityMainBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
-        setContentView(activityMainBinding.getRoot());
-
-        mainViewPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 1);
-
-        initVP();
+        setContentView(R.layout.activity_splash);
 
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
@@ -44,16 +33,16 @@ public class MainActivity extends AppCompatActivity {
             setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+
+        new Handler().postDelayed(() -> {
+            /* Create an Intent that will start the Menu-Activity. */
+            Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+            SplashActivity.this.startActivity(mainIntent);
+            SplashActivity.this.finish();
+        }, 1000);
     }
 
-    private void initVP() {
-
-        activityMainBinding.myViewPager.setAdapter(mainViewPagerAdapter);
-        activityMainBinding.myTabLayout.setupWithViewPager(activityMainBinding.myViewPager);
-        activityMainBinding.myTabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
-    }
-
-    public void setWindowFlag(Activity activity, final int bits, boolean on) {
+    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
         Window win = activity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
         if (on) {

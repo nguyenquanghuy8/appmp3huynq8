@@ -1,15 +1,12 @@
-package com.example.appmp3.module.explorer.adapter;
+package com.example.appmp3.view.module.explorer.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appmp3.R;
 import com.example.appmp3.databinding.ItemRecyclerViewHomeBannerBinding;
-import com.example.appmp3.model.Banner;
+import com.example.appmp3.model.entity.Banner;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.appmp3.module.explorer.adapter;
+package com.example.appmp3.view.module.explorer.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.appmp3.module.explorer.fragment.HomeFragment;
+import com.example.appmp3.view.module.explorer.fragment.HomeFragment;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
     private static final int TAB_SIZE = 1;

@@ -1,49 +1,17 @@
-package com.example.appmp3.module.categorydetail;
+package com.example.appmp3.model.repository;
 
-import android.os.Bundle;
-import android.view.View;
+import android.os.Handler;
+import android.os.Looper;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.example.appmp3.R;
-import com.example.appmp3.databinding.ActivityDetailCategoryBinding;
-import com.example.appmp3.model.Category;
-import com.example.appmp3.model.Song;
-import com.example.appmp3.module.explorer.adapter.SongAdapter;
+import com.example.appmp3.model.entity.Song;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DetailCategoryActivity extends AppCompatActivity {
-    private SongAdapter songAdapter = new SongAdapter();
-    private Category category;
+public class SongRepository {
 
-    private ActivityDetailCategoryBinding activityDetailCategoryBinding;
-
-    public static final String EXTRA_CATEGORY = "extra_category";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        activityDetailCategoryBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail_category);
-
-        initRV();
-        category = (Category) getIntent().getSerializableExtra(EXTRA_CATEGORY);
-        activityDetailCategoryBinding.setCategory(category);
-        activityDetailCategoryBinding.setDetailCategoryActivity(this);
-
-        songAdapter.updateAdapter(fakeSongs());
-    }
-
-    public void onClickBtnBack(View view) {
-        finish();
-    }
-
-    private List<Song> fakeSongs() {
+    public void fakeSongsData(GetSongCallback getSongCallback) {
         List<Song> listSong = new ArrayList<>();
         listSong.add(new Song("Drake", "Laugh Now Cry Later", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
         listSong.add(new Song("Drake", "Nice For What", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
@@ -62,11 +30,17 @@ public class DetailCategoryActivity extends AppCompatActivity {
 
         Collections.shuffle(listSong);
 
-        return listSong;
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getSongCallback.onSuccess(listSong);
+            }
+        }, 1500);
     }
 
-    private void initRV() {
-        activityDetailCategoryBinding.recyclerDetailCategory.setAdapter(songAdapter);
-        activityDetailCategoryBinding.recyclerDetailCategory.setLayoutManager(new LinearLayoutManager(this));
+    public interface GetSongCallback {
+        void onSuccess(List<Song> songs);
+
+        void onFail(String error);
     }
 }
