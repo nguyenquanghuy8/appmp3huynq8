@@ -1,5 +1,8 @@
 package com.example.appmp3.model.repository;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.example.appmp3.R;
 import com.example.appmp3.model.entity.Banner;
 
@@ -23,11 +26,18 @@ public class BannerRepository {
             Banner itemBanner = new Banner(listAvatar.get(position));
             itemBannerList.add(itemBanner);
         }
-        getBannersCallback.onSuccess(itemBannerList);
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getBannersCallback.onSuccess(itemBannerList);
+            }
+        }, 1500);
     }
 
     public interface GetBannersCallback {
         void onSuccess(List<Banner> bannerList);
-        void onFail(String result);
+
+        void onFail(String error);
     }
 }

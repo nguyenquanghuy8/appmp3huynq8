@@ -18,6 +18,7 @@ import com.example.appmp3.databinding.HomeFragmentBinding;
 import com.example.appmp3.model.entity.Banner;
 import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.view.module.categorydetail.DetailCategoryActivity;
+import com.example.appmp3.view.module.dialog.LoadingDialog;
 import com.example.appmp3.view.module.explorer.adapter.CategoryAdapter;
 import com.example.appmp3.view.module.explorer.adapter.HomeAdapter;
 import com.example.appmp3.viewmodel.HomeViewModel;
@@ -28,25 +29,36 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryCl
     private HomeAdapter homeAdapter;
     private HomeFragmentBinding homeFragmentBinding;
     private HomeViewModel homeViewModel;
+    private LoadingDialog loadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        loadingDialog = new LoadingDialog(getContext());
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
         homeViewModel.categoryLiveData.observe(this, categoryListUpdateObserver);
 
         homeViewModel.bannerLiveData.observe(this, bannerListUpdateObserver);
-        homeViewModel.errorLiveData.observe(this, bannerListUpdateObserver);
+        homeViewModel.errorLiveData.observe(this, errorObserver);
+        homeViewModel.loadingLiveData.observe(this, loadingObs);
         homeViewModel.getCategory();
         homeViewModel.getBanner();
     }
 
     Observer<List<Category>> categoryListUpdateObserver = categories -> homeAdapter.updateAdapterCategory(categories);
-
     Observer<List<Banner>> bannerListUpdateObserver = banners -> homeAdapter.updateAdapterBanner(banners);
-
-    Observer<String> errorUpdateObserver = banners -> Toast.makeText(this, banners,Toast.LENGTH_LONG).show();
+    Observer<String> errorObserver = error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+    Observer<Boolean> loadingObs = new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean isShowLoading) {
+            if (isShowLoading) {
+                loadingDialog.show();
+            } else {
+                loadingDialog.dismiss();
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
