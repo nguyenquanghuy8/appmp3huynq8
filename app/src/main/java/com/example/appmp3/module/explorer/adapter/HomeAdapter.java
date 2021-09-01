@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ItemHomeBannerBinding;
+import com.example.appmp3.databinding.ItemHomeCategoryBinding;
+import com.example.appmp3.databinding.ItemHomeSelectionBinding;
 import com.example.appmp3.model.Banner;
 import com.example.appmp3.model.Category;
 import com.example.appmp3.model.Selection;
@@ -36,17 +39,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
         switch (viewType) {
             case 0:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_banner, parent, false);
-                return new BannerViewHolder(view);
+                ItemHomeBannerBinding viewBanner = ItemHomeBannerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new BannerViewHolder(viewBanner);
             case 1:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_selection, parent, false);
-                return new SelectionViewHolder(view);
+                ItemHomeSelectionBinding viewSelection = ItemHomeSelectionBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new SelectionViewHolder(viewSelection);
             case 2:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_category, parent, false);
-                return new CategoryViewHolder(view);
+                ItemHomeCategoryBinding viewCategory = ItemHomeCategoryBinding.inflate(LayoutInflater.from(parent.getContext()));
+                return new CategoryViewHolder(viewCategory);
             default:
                 break;
         }
@@ -90,50 +92,44 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public class BannerViewHolder extends RecyclerView.ViewHolder {
-        private RecyclerView recyclerViewHomeBanner;
+        private ItemHomeBannerBinding itemHomeBannerBinding;
 
-        BannerViewHolder(View view) {
-            super(view);
-            recyclerViewHomeBanner = view.findViewById(R.id.recyclerViewHomeBanner);
+        BannerViewHolder(ItemHomeBannerBinding itemView) {
+            super(itemView.getRoot());
+            itemHomeBannerBinding = itemView;
         }
 
         public void bind(List<Banner> banners) {
             BannerAdapter bannerAdapter = new BannerAdapter(banners);
-            recyclerViewHomeBanner.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            recyclerViewHomeBanner.setAdapter(bannerAdapter);
+            itemHomeBannerBinding.recyclerViewHomeBanner.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            itemHomeBannerBinding.recyclerViewHomeBanner.setAdapter(bannerAdapter);
 
             LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
-            linearSnapHelper.attachToRecyclerView(recyclerViewHomeBanner);
+            linearSnapHelper.attachToRecyclerView( itemHomeBannerBinding.recyclerViewHomeBanner);
         }
     }
 
     public class SelectionViewHolder extends RecyclerView.ViewHolder {
-        private ImageButton btnNewSong;
-        private ImageButton btnCategory;
-        private ImageButton btnTopSong;
-        private ImageButton btnTopMV;
+        private ItemHomeSelectionBinding itemHomeSelectionBinding;
 
-        SelectionViewHolder(View view) {
-            super(view);
-            btnNewSong = view.findViewById(R.id.btnNewSong);
-            btnCategory = view.findViewById(R.id.btnCategory);
-            btnTopSong = view.findViewById(R.id.btnTopSong);
-            btnTopMV = view.findViewById(R.id.btnTopMV);
+        SelectionViewHolder(ItemHomeSelectionBinding itemView) {
+            super(itemView.getRoot());
+            itemHomeSelectionBinding = itemView;
         }
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
-        private final RecyclerView recyclerViewHomeCategory;
+        private ItemHomeCategoryBinding itemHomeCategoryBinding;
 
-        public CategoryViewHolder(View itemView) {
-            super(itemView);
-            recyclerViewHomeCategory = itemView.findViewById(R.id.recyclerViewHomeCategory);
+        public CategoryViewHolder(ItemHomeCategoryBinding itemView) {
+            super(itemView.getRoot());
+            itemHomeCategoryBinding = itemView;
         }
 
         public void bind(List<Category> mCategories) {
             CategoryAdapter categoryAdapter = new CategoryAdapter(mCategories, categoryClickListener);
-            recyclerViewHomeCategory.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            recyclerViewHomeCategory.setAdapter(categoryAdapter);
+            itemHomeCategoryBinding.recyclerViewHomeCategory.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            itemHomeCategoryBinding.recyclerViewHomeCategory.setAdapter(categoryAdapter);
         }
     }
 }

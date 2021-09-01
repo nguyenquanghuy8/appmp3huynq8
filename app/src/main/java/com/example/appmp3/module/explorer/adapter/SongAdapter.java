@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ItemRecyclerViewHomeSongBinding;
 import com.example.appmp3.model.Song;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_home_song, parent, false);
-        return new ViewHolder(view);
+        ItemRecyclerViewHomeSongBinding itemView = ItemRecyclerViewHomeSongBinding.inflate(LayoutInflater.from(parent.getContext()));
+        return new ViewHolder(itemView);
     }
 
     @Override
@@ -44,24 +45,20 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvSongName;
-        private final TextView tvArtistName;
-        private final ImageView imgAvatarSong;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            tvSongName = itemView.findViewById(R.id.tvSongName);
-            tvArtistName = itemView.findViewById(R.id.tvArtistName);
-            imgAvatarSong = itemView.findViewById(R.id.imgAvatarSong);
+        private ItemRecyclerViewHomeSongBinding itemRecyclerViewHomeSongBinding;
+
+        public ViewHolder(ItemRecyclerViewHomeSongBinding itemView) {
+            super(itemView.getRoot());
+            itemRecyclerViewHomeSongBinding = itemView;
         }
 
         public void bind(Song song) {
-            tvSongName.setText(song.getTvSongName());
-            tvArtistName.setText(song.getTvArtistName());
+            itemRecyclerViewHomeSongBinding.setSong(song);
 
             Glide.with(itemView.getContext())
                     .load(song.getImgAvatarSong())
-                    .into(imgAvatarSong);
+                    .into(itemRecyclerViewHomeSongBinding.imgAvatarSong);
         }
     }
 }

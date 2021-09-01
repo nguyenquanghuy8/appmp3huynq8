@@ -1,14 +1,14 @@
 package com.example.appmp3.module.categorydetail;
 
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ActivityDetailCategoryBinding;
 import com.example.appmp3.model.Category;
 import com.example.appmp3.model.Song;
 import com.example.appmp3.module.explorer.adapter.SongAdapter;
@@ -20,27 +20,27 @@ import java.util.List;
 public class DetailCategoryActivity extends AppCompatActivity {
     private SongAdapter songAdapter = new SongAdapter();
     private Category category;
-    private ImageView imgBtnBack;
-    private TextView tvTitle;
+
+    private ActivityDetailCategoryBinding activityDetailCategoryBinding;
 
     public static final String EXTRA_CATEGORY = "extra_category";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_category);
-        imgBtnBack = findViewById(R.id.imgBtnBack);
-        tvTitle = findViewById(R.id.tvTitle);
+
+        activityDetailCategoryBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail_category);
 
         initRV();
         category = (Category) getIntent().getSerializableExtra(EXTRA_CATEGORY);
-        tvTitle.setText(category.getCategoryName());
-
-        imgBtnBack.setOnClickListener(v -> {
-            finish();
-        });
+        activityDetailCategoryBinding.setCategory(category);
+        activityDetailCategoryBinding.setDetailCategoryActivity(this);
 
         songAdapter.updateAdapter(fakeSongs());
+    }
+
+    public void onClickBtnBack(View view) {
+        finish();
     }
 
     private List<Song> fakeSongs() {
@@ -66,8 +66,7 @@ public class DetailCategoryActivity extends AppCompatActivity {
     }
 
     private void initRV() {
-        RecyclerView recyclerViewDetailCategory = findViewById(R.id.recyclerDetailCategory);
-        recyclerViewDetailCategory.setAdapter(songAdapter);
-        recyclerViewDetailCategory.setLayoutManager(new LinearLayoutManager(this));
+        activityDetailCategoryBinding.recyclerDetailCategory.setAdapter(songAdapter);
+        activityDetailCategoryBinding.recyclerDetailCategory.setLayoutManager(new LinearLayoutManager(this));
     }
 }
