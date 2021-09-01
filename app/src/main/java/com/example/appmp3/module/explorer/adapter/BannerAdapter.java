@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ItemRecyclerViewHomeBannerBinding;
 import com.example.appmp3.model.Banner;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_home_banner, parent, false);
-        return new ViewHolder(view);
+        ItemRecyclerViewHomeBannerBinding itemView = ItemRecyclerViewHomeBannerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
@@ -37,15 +38,15 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView imgBanner;
+        private ItemRecyclerViewHomeBannerBinding itemRecyclerViewHomeBannerBinding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imgBanner = itemView.findViewById(R.id.imgBanner);
+        public ViewHolder(ItemRecyclerViewHomeBannerBinding itemView) {
+            super(itemView.getRoot());
+            itemRecyclerViewHomeBannerBinding = itemView;
         }
 
         public void bind(Banner banner) {
-            imgBanner.setImageResource(banner.getBanner());
+            itemRecyclerViewHomeBannerBinding.imgBanner.setImageResource(banner.getBanner());
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ItemCategoryBinding;
 import com.example.appmp3.model.Category;
 
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private List<Category> categories;
     private CategoryClickListener categoryClickListener;
-    private Context context;
 
     public CategoryAdapter(List<Category> categories, CategoryClickListener categoryClickListener) {
         this.categories = categories;
@@ -29,8 +29,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
-        context = parent.getContext();
+        ItemCategoryBinding view = ItemCategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view, categoryClickListener);
     }
 
@@ -46,24 +45,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return categories.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvName;
-        private ImageView ivAvatar;
-        private CategoryClickListener categoryClickListener;
 
-        public ViewHolder(View itemView, CategoryClickListener categoryClickListener) {
-            super(itemView);
-            tvName = itemView.findViewById(R.id.tvName);
-            ivAvatar = itemView.findViewById(R.id.ivAvatar);
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private CategoryClickListener categoryClickListener;
+        private ItemCategoryBinding itemCategoryBinding;
+
+        public ViewHolder(ItemCategoryBinding itemView, CategoryClickListener categoryClickListener) {
+            super(itemView.getRoot());
+            itemCategoryBinding = itemView;
             this.categoryClickListener = categoryClickListener;
         }
 
         public void bind(Category category) {
-            tvName.setText(category.getCategoryName());
+            itemCategoryBinding.setCategory(category);
             String imgAva = category.getImageUrl();
-            Glide.with(context)
+            Glide.with(itemView.getContext())
                     .load(imgAva)
-                    .into(ivAvatar);
+                    .into(itemCategoryBinding.ivAvatar);
             itemView.setOnClickListener(v -> categoryClickListener.onCategoryClicked(category));
         }
     }

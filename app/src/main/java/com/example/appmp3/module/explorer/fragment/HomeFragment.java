@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.HomeFragmentBinding;
 import com.example.appmp3.model.Banner;
 import com.example.appmp3.model.Category;
 import com.example.appmp3.model.Selection;
@@ -25,12 +26,15 @@ import java.util.List;
 import java.util.Random;
 
 public class HomeFragment extends Fragment implements CategoryAdapter.CategoryClickListener {
-    private List<Selection> selectionList = new ArrayList<>();
+    private final List<Selection> selectionList = new ArrayList<>();
     private HomeAdapter homeAdapter;
+    private HomeFragmentBinding homeFragmentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_fragment, container, false);
+        HomeFragmentBinding item = HomeFragmentBinding.inflate(inflater);
+        homeFragmentBinding = item;
+        return item.getRoot();
     }
 
     @Override
@@ -64,11 +68,9 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryCl
     }
 
     private void initRV() {
-        RecyclerView recyclerViewHome = getActivity().findViewById(R.id.rvHome);
         homeAdapter = new HomeAdapter(fakeCategoriesData(), fakeBanners(), selectionList, this);
-        recyclerViewHome.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        recyclerViewHome.setAdapter(homeAdapter);
+        homeFragmentBinding.rvHome.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeFragmentBinding.rvHome.setAdapter(homeAdapter);
     }
 
     @Override

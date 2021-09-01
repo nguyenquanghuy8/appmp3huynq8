@@ -9,24 +9,28 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ActivityMainBinding;
 import com.example.appmp3.module.explorer.adapter.MainPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     private MainPagerAdapter mainViewPagerAdapter;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        activityMainBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
+        setContentView(activityMainBinding.getRoot());
+
         mainViewPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 1);
 
-        initView();
         initVP();
 
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
@@ -43,14 +47,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initVP() {
-        viewPager.setAdapter(mainViewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
-    }
 
-    private void initView() {
-        tabLayout = findViewById(R.id.myTabLayout);
-        viewPager = findViewById(R.id.myViewPager);
+        activityMainBinding.myViewPager.setAdapter(mainViewPagerAdapter);
+        activityMainBinding.myTabLayout.setupWithViewPager(activityMainBinding.myViewPager);
+        activityMainBinding.myTabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
     }
 
     public void setWindowFlag(Activity activity, final int bits, boolean on) {
