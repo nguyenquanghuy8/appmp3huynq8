@@ -1,4 +1,4 @@
-package com.example.appmp3.model;
+package com.example.appmp3.model.entity;
 
 public class Selection {
     private int newSong;

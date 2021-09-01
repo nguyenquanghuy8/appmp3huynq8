@@ -4,11 +4,11 @@
     <data>
         <variable
             name="category"
-            type="com.example.appmp3.model.Category" />
+            type="com.example.appmp3.model.entity.Category" />
 
         <variable
             name="detailCategoryActivity"
-            type="com.example.appmp3.module.categorydetail.DetailCategoryActivity" />
+            type="com.example.appmp3.view.module.categorydetail.DetailCategoryActivity" />
     </data>
 
     <LinearLayout

@@ -5,7 +5,11 @@
 
         <variable
             name="song"
-            type="com.example.appmp3.model.Song" />
+            type="com.example.appmp3.model.entity.Song" />
+        
+        <variable
+            name="viewModel"
+            type="com.example.appmp3.viewmodel.SongViewModel" />
 
     </data>
 

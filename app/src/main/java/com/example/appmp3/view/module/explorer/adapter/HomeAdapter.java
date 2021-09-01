@@ -1,40 +1,45 @@
-package com.example.appmp3.module.explorer.adapter;
+package com.example.appmp3.view.module.explorer.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appmp3.R;
 import com.example.appmp3.databinding.ItemHomeBannerBinding;
 import com.example.appmp3.databinding.ItemHomeCategoryBinding;
 import com.example.appmp3.databinding.ItemHomeSelectionBinding;
-import com.example.appmp3.model.Banner;
-import com.example.appmp3.model.Category;
-import com.example.appmp3.model.Selection;
+import com.example.appmp3.model.entity.Banner;
+import com.example.appmp3.model.entity.Category;
+import com.example.appmp3.model.entity.Selection;
 import com.example.appmp3.ultils.SnapHelperOneByOne;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<Banner> mListBanner;
-    private final List<Selection> mListSelection;
-    private final List<Category> mCategory;
+    private final List<Banner> mListBanner = new ArrayList<>();
+    private final List<Selection> mListSelection = new ArrayList<>();
+    private final List<Category> mListCategory = new ArrayList<>();
     private static final int BANNER = 0;
     private static final int SELECTION = 1;
     private static final int CATEGORY = 2;
     private CategoryAdapter.CategoryClickListener categoryClickListener;
     private final int ITEM_SIZE = 3;
 
-    public HomeAdapter(List<Category> categories, List<Banner> listBanner, List<Selection> listSelection, CategoryAdapter.CategoryClickListener categoryClickListener) {
-        this.mCategory = categories;
-        this.mListBanner = listBanner;
-        this.mListSelection = listSelection;
+    public HomeAdapter(CategoryAdapter.CategoryClickListener categoryClickListener) {
         this.categoryClickListener = categoryClickListener;
+    }
+
+    public void updateAdapterCategory(List<Category> mListCategory) {
+        this.mListCategory.addAll(mListCategory);
+        notifyDataSetChanged();
+    }
+
+    public void updateAdapterBanner(List<Banner> mListBanner) {
+        this.mListBanner.addAll(mListBanner);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -69,7 +74,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case CATEGORY:
                 if (holder instanceof CategoryViewHolder) {
-                    ((CategoryViewHolder) holder).bind(mCategory);
+                    ((CategoryViewHolder) holder).bind(mListCategory);
                 }
                 break;
         }
@@ -105,7 +110,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemHomeBannerBinding.recyclerViewHomeBanner.setAdapter(bannerAdapter);
 
             LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
-            linearSnapHelper.attachToRecyclerView( itemHomeBannerBinding.recyclerViewHomeBanner);
+            itemHomeBannerBinding.recyclerViewHomeBanner.setOnFlingListener(null);
+            linearSnapHelper.attachToRecyclerView(itemHomeBannerBinding.recyclerViewHomeBanner);
         }
     }
 

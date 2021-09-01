@@ -5,7 +5,7 @@
 
         <variable
             name="category"
-            type="com.example.appmp3.model.Category" />
+            type="com.example.appmp3.model.entity.Category" />
 
     </data>
 
