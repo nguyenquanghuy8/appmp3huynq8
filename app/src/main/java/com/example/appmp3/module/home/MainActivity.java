@@ -18,8 +18,6 @@ import com.example.appmp3.module.explorer.adapter.MainPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     private MainPagerAdapter mainViewPagerAdapter;
     private ActivityMainBinding activityMainBinding;
 
@@ -33,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 1);
 
-        initView();
         initVP();
 
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
@@ -51,18 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initVP() {
 
-//        activityMainBinding.myViewPager.setAdapter(mainViewPagerAdapter);
-//        activityMainBinding.myTabLayout.setupWithViewPager(viewPager);
-//        activityMainBinding.myTabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
-
-        viewPager.setAdapter(mainViewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
-    }
-
-    private void initView() {
-        tabLayout = findViewById(R.id.myTabLayout);
-        viewPager = findViewById(R.id.myViewPager);
+        activityMainBinding.myViewPager.setAdapter(mainViewPagerAdapter);
+        activityMainBinding.myTabLayout.setupWithViewPager(activityMainBinding.myViewPager);
+        activityMainBinding.myTabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
     }
 
     public void setWindowFlag(Activity activity, final int bits, boolean on) {

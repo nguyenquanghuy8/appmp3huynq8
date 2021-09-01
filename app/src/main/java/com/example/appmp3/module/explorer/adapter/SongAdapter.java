@@ -29,7 +29,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemRecyclerViewHomeSongBinding itemView = ItemRecyclerViewHomeSongBinding.inflate(LayoutInflater.from(parent.getContext()));
+        ItemRecyclerViewHomeSongBinding itemView = ItemRecyclerViewHomeSongBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemView);
     }
 

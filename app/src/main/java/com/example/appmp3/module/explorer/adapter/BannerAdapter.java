@@ -22,7 +22,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemRecyclerViewHomeBannerBinding itemView = ItemRecyclerViewHomeBannerBinding.inflate(LayoutInflater.from(parent.getContext()));
+        ItemRecyclerViewHomeBannerBinding itemView = ItemRecyclerViewHomeBannerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemView);
     }
 
