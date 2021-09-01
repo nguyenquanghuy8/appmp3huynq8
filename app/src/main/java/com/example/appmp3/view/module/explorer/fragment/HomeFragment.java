@@ -30,6 +30,19 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryCl
     private HomeFragmentBinding homeFragmentBinding;
     private HomeViewModel homeViewModel;
     private LoadingDialog loadingDialog;
+    private Observer<List<Category>> categoryListUpdateObserver = categories -> homeAdapter.updateAdapterCategory(categories);
+    private Observer<List<Banner>> bannerListUpdateObserver = banners -> homeAdapter.updateAdapterBanner(banners);
+    private Observer<String> errorObserver = error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+    private Observer<Boolean> loadingObs = new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean isShowLoading) {
+            if (isShowLoading) {
+                loadingDialog.show();
+            } else {
+                loadingDialog.dismiss();
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,23 +55,10 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryCl
         homeViewModel.bannerLiveData.observe(this, bannerListUpdateObserver);
         homeViewModel.errorLiveData.observe(this, errorObserver);
         homeViewModel.loadingLiveData.observe(this, loadingObs);
+
         homeViewModel.getCategory();
         homeViewModel.getBanner();
     }
-
-    Observer<List<Category>> categoryListUpdateObserver = categories -> homeAdapter.updateAdapterCategory(categories);
-    Observer<List<Banner>> bannerListUpdateObserver = banners -> homeAdapter.updateAdapterBanner(banners);
-    Observer<String> errorObserver = error -> Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
-    Observer<Boolean> loadingObs = new Observer<Boolean>() {
-        @Override
-        public void onChanged(Boolean isShowLoading) {
-            if (isShowLoading) {
-                loadingDialog.show();
-            } else {
-                loadingDialog.dismiss();
-            }
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

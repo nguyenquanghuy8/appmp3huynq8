@@ -34,12 +34,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void updateAdapterCategory(List<Category> mListCategory) {
         this.mListCategory.addAll(mListCategory);
-        notifyDataSetChanged();
+        notifyItemChanged(2);
     }
 
     public void updateAdapterBanner(List<Banner> mListBanner) {
         this.mListBanner.addAll(mListBanner);
-        notifyDataSetChanged();
+        notifyItemChanged(0);
     }
 
     @Override

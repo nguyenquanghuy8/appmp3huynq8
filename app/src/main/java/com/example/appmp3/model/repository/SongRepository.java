@@ -1,5 +1,8 @@
 package com.example.appmp3.model.repository;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.example.appmp3.model.entity.Song;
 
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.List;
 
 public class SongRepository {
 
-    public List<Song> fakeSongsData() {
+    public void fakeSongsData(GetSongCallback getSongCallback) {
         List<Song> listSong = new ArrayList<>();
         listSong.add(new Song("Drake", "Laugh Now Cry Later", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
         listSong.add(new Song("Drake", "Nice For What", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
@@ -27,6 +30,17 @@ public class SongRepository {
 
         Collections.shuffle(listSong);
 
-        return listSong;
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getSongCallback.onSuccess(listSong);
+            }
+        }, 1500);
+    }
+
+    public interface GetSongCallback {
+        void onSuccess(List<Song> songs);
+
+        void onFail(String error);
     }
 }

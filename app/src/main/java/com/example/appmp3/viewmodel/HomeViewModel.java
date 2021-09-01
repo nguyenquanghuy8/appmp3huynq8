@@ -23,8 +23,21 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void getCategory() {
-        List<Category> arrayList = categoryRepository.fakeCategoriesData();
-        categoryLiveData.postValue(arrayList);
+        loadingLiveData.postValue(true);
+
+        categoryRepository.fakeCategoriesData(new CategoryRepository.GetCategoryCallBack() {
+            @Override
+            public void onSuccess(List<Category> categories) {
+                categoryLiveData.postValue(categories);
+                loadingLiveData.postValue(false);
+            }
+
+            @Override
+            public void onFail(String error) {
+                errorLiveData.postValue(error);
+                loadingLiveData.postValue(false);
+            }
+        });
     }
 
     public void getBanner() {
