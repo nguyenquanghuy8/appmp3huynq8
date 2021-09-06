@@ -3,7 +3,6 @@ package com.example.appmp3.view.module.categorydetail;
 import android.view.View;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.appmp3.R;
@@ -24,13 +23,23 @@ public class DetailCategoryActivity extends BaseActivity<ActivityDetailCategoryB
     private Observer<List<Song>> songListUpdateObserver = songs -> songAdapter.updateAdapter(songs);
 
     @Override
+    protected void addEvent() {
+
+    }
+
+    @Override
+    protected void obsViewModel() {
+        getViewModel().songLiveData.observe(this, songListUpdateObserver);
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_detail_category;
     }
 
     @Override
-    protected SongViewModel inflateViewModel() {
-        return new ViewModelProvider(this).get(SongViewModel.class);
+    protected Class<SongViewModel> getViewModelClass() {
+        return SongViewModel.class;
     }
 
     @Override
@@ -41,7 +50,6 @@ public class DetailCategoryActivity extends BaseActivity<ActivityDetailCategoryB
         getBinding().setDetailCategoryActivity(this);
 
         //dang ky lang nghe su kien khi data thay doi
-        getViewModel().songLiveData.observe(this, songListUpdateObserver);
 
         getViewModel().getSong();
     }
