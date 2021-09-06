@@ -7,14 +7,13 @@ import com.example.appmp3.model.entity.Banner;
 import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.repository.BannerRepository;
 import com.example.appmp3.model.repository.CategoryRepository;
+import com.example.appmp3.view.base.BaseViewModel;
 
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends BaseViewModel {
     public MutableLiveData<List<Category>> categoryLiveData = new MutableLiveData<>();
     public MutableLiveData<List<Banner>> bannerLiveData = new MutableLiveData<>();
-    public MutableLiveData<String> errorLiveData = new MutableLiveData<>();
-    public MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>();
 
     private CategoryRepository categoryRepository = new CategoryRepository();
     private BannerRepository bannerRepository = new BannerRepository();

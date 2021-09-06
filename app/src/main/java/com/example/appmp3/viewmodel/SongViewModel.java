@@ -1,19 +1,17 @@
 package com.example.appmp3.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.appmp3.model.entity.Song;
 import com.example.appmp3.model.repository.SongRepository;
+import com.example.appmp3.view.base.BaseViewModel;
 
 import java.util.List;
 
-public class SongViewModel extends ViewModel {
+public class SongViewModel extends BaseViewModel {
     private SongRepository songRepository;
 
     public MutableLiveData<List<Song>> songLiveData = new MutableLiveData<>();
-    public MutableLiveData<String> errorLiveData = new MutableLiveData<>();
-    public MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>();
 
     public SongViewModel() {
         songRepository = new SongRepository();
