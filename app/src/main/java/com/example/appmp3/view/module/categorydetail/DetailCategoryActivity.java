@@ -15,6 +15,9 @@ import com.example.appmp3.viewmodel.SongViewModel;
 
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class DetailCategoryActivity extends BaseActivity<ActivityDetailCategoryBinding, SongViewModel> {
     private SongAdapter songAdapter = new SongAdapter();
     private Category category;

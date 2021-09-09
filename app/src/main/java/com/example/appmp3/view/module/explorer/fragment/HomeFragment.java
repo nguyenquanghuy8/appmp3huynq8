@@ -17,6 +17,9 @@ import com.example.appmp3.viewmodel.HomeViewModel;
 
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewModel> implements CategoryAdapter.CategoryClickListener {
     private HomeAdapter homeAdapter;
     private Observer<List<Category>> categoryListUpdateObserver = categories -> homeAdapter.updateAdapterCategory(categories);

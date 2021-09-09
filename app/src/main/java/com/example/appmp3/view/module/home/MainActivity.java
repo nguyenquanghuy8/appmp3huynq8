@@ -15,6 +15,9 @@ import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityMainBinding;
 import com.example.appmp3.view.module.explorer.adapter.MainPagerAdapter;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
     private MainPagerAdapter mainViewPagerAdapter;
     private ActivityMainBinding activityMainBinding;
@@ -22,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         activityMainBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
         setContentView(activityMainBinding.getRoot());

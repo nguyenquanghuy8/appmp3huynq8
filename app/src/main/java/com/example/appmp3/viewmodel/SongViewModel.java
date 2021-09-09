@@ -8,13 +8,19 @@ import com.example.appmp3.view.base.BaseViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class SongViewModel extends BaseViewModel {
     private SongRepository songRepository;
 
     public MutableLiveData<List<Song>> songLiveData = new MutableLiveData<>();
 
-    public SongViewModel() {
-        songRepository = new SongRepository();
+    @Inject
+    public SongViewModel(SongRepository songRepository) {
+        this.songRepository = songRepository;
         songLiveData = new MutableLiveData<>();
     }
 
