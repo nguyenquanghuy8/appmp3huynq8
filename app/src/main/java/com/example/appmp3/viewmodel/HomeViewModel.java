@@ -11,14 +11,22 @@ import com.example.appmp3.view.base.BaseViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class HomeViewModel extends BaseViewModel {
     public MutableLiveData<List<Category>> categoryLiveData = new MutableLiveData<>();
     public MutableLiveData<List<Banner>> bannerLiveData = new MutableLiveData<>();
 
-    private CategoryRepository categoryRepository = new CategoryRepository();
-    private BannerRepository bannerRepository = new BannerRepository();
+    private CategoryRepository categoryRepository;
+    private BannerRepository bannerRepository;
 
-    public HomeViewModel() {
+    @Inject
+    public HomeViewModel(BannerRepository bannerRepository, CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+        this.bannerRepository = bannerRepository;
     }
 
     public void getCategory() {

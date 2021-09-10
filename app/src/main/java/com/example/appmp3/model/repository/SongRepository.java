@@ -9,7 +9,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class SongRepository {
+
+    @Inject
+    public SongRepository() {
+
+    }
 
     public void fakeSongsData(GetSongCallback getSongCallback) {
         List<Song> listSong = new ArrayList<>();

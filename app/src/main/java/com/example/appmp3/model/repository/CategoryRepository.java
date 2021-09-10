@@ -8,7 +8,16 @@ import com.example.appmp3.model.entity.Category;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class CategoryRepository {
+
+    @Inject
+    public CategoryRepository() {
+
+    }
 
     public void fakeCategoriesData(GetCategoryCallBack getCategoryCallBack) {
         List<Category> categoryList = new ArrayList<>();

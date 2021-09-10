@@ -10,7 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class BannerRepository {
+
+    @Inject
+    public BannerRepository() {
+
+    }
 
     public void fakeBannersData(GetBannersCallback getBannersCallback) {
         List<Banner> itemBannerList = new ArrayList<>();
