@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appmp3.R;
 import com.example.appmp3.view.module.home.MainActivity;
+import com.example.appmp3.view.module.login.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -35,10 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         new Handler().postDelayed(() -> {
-            /* Create an Intent that will start the Menu-Activity. */
-            Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-            SplashActivity.this.startActivity(mainIntent);
-            SplashActivity.this.finish();
+            loginActivity();
         }, 1000);
     }
 
@@ -51,5 +51,18 @@ public class SplashActivity extends AppCompatActivity {
             winParams.flags &= ~bits;
         }
         win.setAttributes(winParams);
+    }
+
+    private void loginActivity() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+        if (firebaseUser == null) {
+            //chua login
+            intent = new Intent(this, LoginActivity.class);
+        } else {
+            //da login
+            intent = new Intent(this, MainActivity.class);
+        }
+        startActivity(intent);
     }
 }

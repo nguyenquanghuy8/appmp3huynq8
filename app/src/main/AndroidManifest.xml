@@ -37,6 +37,20 @@
             android:parentActivityName=".view.module.home.MainActivity">
 
         </activity>
+
+        <activity
+            android:name=".view.module.login.LoginActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar"
+            android:parentActivityName=".view.module.home.MainActivity">
+
+        </activity>
+
+        <activity
+            android:name=".view.module.login.RegisterActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar"
+            android:parentActivityName=".view.module.home.MainActivity">
+
+        </activity>
     </application>
 
 </manifest>
