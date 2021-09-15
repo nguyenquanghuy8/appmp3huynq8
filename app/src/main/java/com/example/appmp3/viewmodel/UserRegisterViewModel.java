@@ -21,15 +21,15 @@ public class UserRegisterViewModel extends BaseViewModel {
     public UserRegisterViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
         userLiveData = new MutableLiveData<>();
-        userRepository.getCurrentUser();
     }
 
     public void register(String email, String password) {
         loadingLiveData.postValue(true);
+        userRepository.getCurrentUser();
 
         userRepository.registerUser(email, password, new UserRepository.RegisterCallback() {
             @Override
-            public void onSuccess(String email, String password) {
+            public void onSuccess(String success) {
                 userLiveData.postValue(userRepository.getCurrentUser());
                 loadingLiveData.postValue(false);
             }

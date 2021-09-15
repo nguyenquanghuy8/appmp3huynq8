@@ -13,18 +13,45 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ActivitySplashBinding;
+import com.example.appmp3.view.base.BaseActivity;
 import com.example.appmp3.view.module.home.MainActivity;
 import com.example.appmp3.view.module.login.LoginActivity;
+import com.example.appmp3.viewmodel.SplashViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SplashActivity extends AppCompatActivity {
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
+public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashViewModel> {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+    protected void addEvent() {
 
+    }
+
+    @Override
+    protected void obsViewModel() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_splash;
+    }
+
+    @Override
+    protected Class<SplashViewModel> getViewModelClass() {
+        return SplashViewModel.class;
+    }
+
+    @Override
+    protected void init() {
+        transparentStatusBar();
+    }
+
+    private void transparentStatusBar() {
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
         }
@@ -54,9 +81,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void loginActivity() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Intent intent;
-        if (firebaseUser == null) {
+        if (getViewModel().getCurrentUser(true)) {
             //chua login
             intent = new Intent(this, LoginActivity.class);
         } else {

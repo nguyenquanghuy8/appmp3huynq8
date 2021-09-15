@@ -1,7 +1,5 @@
 package com.example.appmp3.model.repository;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -16,7 +14,6 @@ public class UserRepository {
     @Inject
     public UserRepository() {
         firebaseAuth = FirebaseAuth.getInstance();
-
     }
 
     public FirebaseUser getCurrentUser() {
@@ -30,14 +27,14 @@ public class UserRepository {
                     registerCallback.onFail(e.getMessage());
                 })
                 .addOnSuccessListener(authResult -> {
-                    registerCallback.onSuccess(email, password);
+                    registerCallback.onSuccess("Register Success");
                 });
     }
 
     public void loginUser(String email, String password, LoginCallback loginCallback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    loginCallback.onSuccess(email, password);
+                    loginCallback.onSuccess("Login Success");
                 })
                 .addOnFailureListener(e -> {
                     loginCallback.onFail(e.getMessage());
@@ -45,13 +42,13 @@ public class UserRepository {
     }
 
     public interface RegisterCallback {
-        void onSuccess(String email, String password);
+        void onSuccess(String success);
 
         void onFail(String error);
     }
 
     public interface LoginCallback {
-        void onSuccess(String email, String password);
+        void onSuccess(String success);
 
         void onFail(String error);
     }

@@ -19,15 +19,15 @@ public class UserLoginViewModel extends BaseViewModel {
     public UserLoginViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
         userLiveData = new MutableLiveData<>();
-        userRepository.getCurrentUser();
     }
 
     public void login(String email, String password) {
         loadingLiveData.postValue(true);
+        userRepository.getCurrentUser();
 
         userRepository.loginUser(email, password, new UserRepository.LoginCallback() {
             @Override
-            public void onSuccess(String email, String password) {
+            public void onSuccess(String success) {
                 userLiveData.postValue(userRepository.getCurrentUser());
                 loadingLiveData.postValue(false);
             }
