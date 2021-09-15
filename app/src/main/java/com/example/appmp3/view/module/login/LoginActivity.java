@@ -1,8 +1,8 @@
 package com.example.appmp3.view.module.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Patterns;
-import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 
@@ -13,12 +13,14 @@ import com.example.appmp3.view.module.home.MainActivity;
 import com.example.appmp3.viewmodel.UserLoginViewModel;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.regex.Pattern;
-
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, UserLoginViewModel> {
+
+    public static void startActivity(Context context){
+        context.startActivity(new Intent(context, LoginActivity.class));
+    }
 
     @Override
     protected void addEvent() {
@@ -35,9 +37,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, UserLoginV
         getViewModel().userLiveData.observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if (firebaseUser != null) {
+                if (getViewModel().userRepository.getCurrentUser() != null) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -59,20 +62,23 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, UserLoginV
     }
 
     private void onClickLogin() {
-        String edtRegisterEmail = getBinding().edtLoginEmail.getText().toString().trim();
-        String edtRegisterPassword = getBinding().edtLoginPassword.getText().toString().trim();
-        if (edtRegisterEmail.length() > 0 && edtRegisterPassword.length() > 0 && isEmailValid(edtRegisterEmail)) {
-            getViewModel().login(edtRegisterEmail, edtRegisterPassword);
-        }
-        if (edtRegisterPassword.length() < 8){
-            Toast.makeText(getApplicationContext(), "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(getApplicationContext(), "Login Fail", Toast.LENGTH_SHORT).show();
+        String email = getBinding().edtLoginEmail.getText().toString().trim();
+        String password = getBinding().edtLoginPassword.getText().toString().trim();
+        if (checkValidate(email, password)) {
+            getViewModel().login(email, password);
         }
     }
 
-    private boolean isEmailValid(CharSequence email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    private boolean checkValidate(String email, String password) {
+        boolean isEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.isEmpty();
+        boolean isPassword = password.length() > 6;
+
+        if (!isEmail) {
+            showToast(getApplicationContext(), getString(R.string.check_email));
+        } else
+        if (!isPassword) {
+            showToast(getApplicationContext(), getString(R.string.check_password));
+        }
+        return isEmail && isPassword;
     }
 }

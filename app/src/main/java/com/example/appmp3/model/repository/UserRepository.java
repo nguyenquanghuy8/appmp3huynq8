@@ -27,14 +27,14 @@ public class UserRepository {
                     registerCallback.onFail(e.getMessage());
                 })
                 .addOnSuccessListener(authResult -> {
-                    registerCallback.onSuccess("Register Success");
+                    registerCallback.onSuccess();
                 });
     }
 
     public void loginUser(String email, String password, LoginCallback loginCallback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    loginCallback.onSuccess("Login Success");
+                    loginCallback.onSuccess();
                 })
                 .addOnFailureListener(e -> {
                     loginCallback.onFail(e.getMessage());
@@ -42,13 +42,13 @@ public class UserRepository {
     }
 
     public interface RegisterCallback {
-        void onSuccess(String success);
+        void onSuccess();
 
         void onFail(String error);
     }
 
     public interface LoginCallback {
-        void onSuccess(String success);
+        void onSuccess();
 
         void onFail(String error);
     }

@@ -1,6 +1,8 @@
 package com.example.appmp3.view.module.home;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MainActivity extends AppCompatActivity {
     private MainPagerAdapter mainViewPagerAdapter;
     private ActivityMainBinding activityMainBinding;
+
+    public static void startActivity(Context context){
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

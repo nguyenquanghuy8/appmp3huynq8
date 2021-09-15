@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.appmp3.view.module.dialog.LoadingDialog;
-import com.example.appmp3.viewmodel.HomeViewModel;
 
 public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends Fragment {
     private LoadingDialog loadingDialog;

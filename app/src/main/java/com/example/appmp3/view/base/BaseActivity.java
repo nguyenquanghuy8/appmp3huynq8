@@ -1,5 +1,6 @@
 package com.example.appmp3.view.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -60,5 +61,9 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         obsViewModel();
         addEvent();
         init();
+    }
+
+    public void showToast(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 }

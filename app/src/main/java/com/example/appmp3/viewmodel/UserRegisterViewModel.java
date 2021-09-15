@@ -14,7 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class UserRegisterViewModel extends BaseViewModel {
 
-    private UserRepository userRepository;
+    public UserRepository userRepository;
     public MutableLiveData<FirebaseUser> userLiveData;
 
     @Inject
@@ -29,7 +29,7 @@ public class UserRegisterViewModel extends BaseViewModel {
 
         userRepository.registerUser(email, password, new UserRepository.RegisterCallback() {
             @Override
-            public void onSuccess(String success) {
+            public void onSuccess() {
                 userLiveData.postValue(userRepository.getCurrentUser());
                 loadingLiveData.postValue(false);
             }

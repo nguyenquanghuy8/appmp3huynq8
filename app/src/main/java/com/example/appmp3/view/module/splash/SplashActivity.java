@@ -1,39 +1,41 @@
 package com.example.appmp3.view.module.splash;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.os.Looper;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivitySplashBinding;
-import com.example.appmp3.view.base.BaseActivity;
+import com.example.appmp3.view.base.TransparentStatusBar;
 import com.example.appmp3.view.module.home.MainActivity;
 import com.example.appmp3.view.module.login.LoginActivity;
 import com.example.appmp3.viewmodel.SplashViewModel;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashViewModel> {
+public class SplashActivity extends TransparentStatusBar<ActivitySplashBinding, SplashViewModel> {
 
     @Override
     protected void addEvent() {
-
     }
 
     @Override
     protected void obsViewModel() {
-
+        getViewModel().navigateScreenObs.observe(this, new Observer<SplashViewModel.NavigateScreen>() {
+            @Override
+            public void onChanged(SplashViewModel.NavigateScreen navigateScreen) {
+                switch (navigateScreen) {
+                    case OPEN_HOME:
+                        MainActivity.startActivity(SplashActivity.this);
+                        break;
+                    case OPEN_LOGIN:
+                        LoginActivity.startActivity(SplashActivity.this);
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -48,47 +50,12 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
 
     @Override
     protected void init() {
-        transparentStatusBar();
+        delaySplashActivity();
     }
 
-    private void transparentStatusBar() {
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
-        }
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-
-        new Handler().postDelayed(() -> {
-            loginActivity();
+    private void delaySplashActivity() {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            getViewModel().checkLogin();
         }, 1000);
-    }
-
-    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
-        Window win = activity.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
-
-    private void loginActivity() {
-        Intent intent;
-        if (getViewModel().getCurrentUser(true)) {
-            //chua login
-            intent = new Intent(this, LoginActivity.class);
-        } else {
-            //da login
-            intent = new Intent(this, MainActivity.class);
-        }
-        startActivity(intent);
     }
 }
