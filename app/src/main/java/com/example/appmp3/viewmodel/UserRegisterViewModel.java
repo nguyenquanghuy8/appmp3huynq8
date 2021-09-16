@@ -30,7 +30,6 @@ public class UserRegisterViewModel extends BaseViewModel {
         userRepository.registerUser(email, password, new UserRepository.RegisterCallback() {
             @Override
             public void onSuccess() {
-                userLiveData.postValue(userRepository.getCurrentUser());
                 loadingLiveData.postValue(false);
             }
 

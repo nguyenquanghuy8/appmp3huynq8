@@ -27,11 +27,9 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, User
         getViewModel().userLiveData.observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if (getViewModel().userRepository.getCurrentUser() != null) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
-                    finishAffinity();
-                }
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             }
         });
     }
@@ -60,15 +58,25 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, User
     }
 
     private boolean checkValidate(String email, String password) {
-        boolean isEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.isEmpty();
+        boolean isEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches();
         boolean isPassword = password.length() > 6;
 
-        if (!isEmail) {
-            showToast(getApplicationContext(), getString(R.string.check_email));
-        } else
-        if (!isPassword) {
-            showToast(getApplicationContext(), getString(R.string.check_password));
+        if (email.isEmpty()) {
+            showToast(getString(R.string.check_email_empty));
+            return false;
         }
-        return isEmail && isPassword;
+        if (!isEmail) {
+            showToast(getString(R.string.check_email_valid));
+            return false;
+        }
+        if (password.isEmpty()) {
+            showToast(getString(R.string.check_password_empty));
+            return false;
+        }
+        if (!isPassword) {
+            showToast(getString(R.string.check_password_length));
+            return false;
+        }
+        return true;
     }
 }
