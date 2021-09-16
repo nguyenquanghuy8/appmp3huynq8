@@ -6,11 +6,23 @@
     <string name="password">Password</string>
     <string name="navigateScreen">Login</string>
     <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="address">Address</string>
+    <string name="phone_number">Phone Number</string>
     <string name="dont_have_an_account">Don\'t have an account</string>
     <string name="check_email_empty">Vui long nhap email</string>
     <string name="check_email_valid">Email khong dung dinh dang</string>
     <string name="check_password_empty">Vui long nhap password</string>
     <string name="check_password_length">Mat khau phai lon hon 6 ky tu</string>
+    <string name="check_username_length">Vui long nhap username</string>
+    <string name="check_firstname_length">Vui long nhap first name</string>
+    <string name="check_lastname_length">Vui long nhap last name</string>
+    <string name="check_address_length">Vui long nhap address</string>
+    <string name="check_phonenumber_length">Vui long nhap phone number</string>
+
+    <string name="sign_out">Dang xuat</string>
 
     <string name="song_name">Song name</string>
     <string name="artist_name">Artist name</string>

@@ -1,6 +1,5 @@
 package com.example.appmp3.viewmodel;
 
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.appmp3.model.entity.User;
@@ -14,26 +13,27 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
-public class UserRegisterViewModel extends BaseViewModel {
+public class UserViewModel extends BaseViewModel {
     private UserRepository userRepository;
-    public MutableLiveData<Boolean> registerSuccessObs = new MutableLiveData<>();
+    public MutableLiveData<User> userLiveData = new MutableLiveData<>();
 
     @Inject
-    public UserRegisterViewModel(UserRepository userRepository) {
+    public UserViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public void register(User user, String password) {
+    public void loadUserInfo() {
+        userRepository.getCurrentUser();
+
         compositeDisposable.add(
                 userRepository
-                        .registerUser(user.getUserEmail(), password)
-                        .flatMap(result -> userRepository.storeUser(user))
+                        .getUserInfo()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnError(onError -> notifyHideLoading())
                         .doOnSubscribe(onSubscribe -> notifyShowLoading())
                         .doOnComplete(this::notifyHideLoading)
-                        .subscribe(response -> registerSuccessObs.postValue(true), this::notifyError)
+                        .subscribe(result -> userLiveData.postValue(result), this::notifyError)
         );
     }
 }

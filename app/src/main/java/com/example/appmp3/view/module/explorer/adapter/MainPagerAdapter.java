@@ -7,9 +7,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.appmp3.view.module.explorer.fragment.HomeFragment;
+import com.example.appmp3.view.module.explorer.fragment.UserFragment;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
-    private static final int TAB_SIZE = 1;
+    private static final int TAB_SIZE = 2;
 
     public MainPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -21,6 +22,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new HomeFragment();
+            case 1:
+                return new UserFragment();
             default:
                 return new Fragment();
         }
@@ -37,6 +40,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return "HOME";
+            case 1:
+                return "USER";
             default:
                 return "";
         }

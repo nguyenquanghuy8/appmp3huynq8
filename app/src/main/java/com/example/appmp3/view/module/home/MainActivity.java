@@ -16,7 +16,9 @@ public class MainActivity extends TransparentStatusBar<ActivityMainBinding, Main
     private MainPagerAdapter mainViewPagerAdapter;
 
     public static void startActivity(Context context){
-        context.startActivity(new Intent(context, MainActivity.class));
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override
@@ -46,9 +48,10 @@ public class MainActivity extends TransparentStatusBar<ActivityMainBinding, Main
     }
 
     private void initVP() {
-        mainViewPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 1);
+        mainViewPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 2);
         getBinding().myViewPager.setAdapter(mainViewPagerAdapter);
         getBinding().myTabLayout.setupWithViewPager(getBinding().myViewPager);
         getBinding().myTabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
+        getBinding().myTabLayout.getTabAt(1).setIcon(R.drawable.ic_tab_user);
     }
 }
