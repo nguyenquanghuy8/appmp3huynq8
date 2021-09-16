@@ -1,66 +1,54 @@
 package com.example.appmp3.view.module.home;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+import android.content.Context;
+import android.content.Intent;
 
 import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityMainBinding;
+import com.example.appmp3.view.base.TransparentStatusBar;
 import com.example.appmp3.view.module.explorer.adapter.MainPagerAdapter;
+import com.example.appmp3.viewmodel.MainViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends TransparentStatusBar<ActivityMainBinding, MainViewModel> {
     private MainPagerAdapter mainViewPagerAdapter;
-    private ActivityMainBinding activityMainBinding;
+
+    public static void startActivity(Context context){
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void addEvent() {
 
-        activityMainBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main, null, false);
-        setContentView(activityMainBinding.getRoot());
+    }
 
-        mainViewPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 1);
+    @Override
+    protected void obsViewModel() {
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected Class<MainViewModel> getViewModelClass() {
+        return MainViewModel.class;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
         initVP();
-
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
-        }
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
     }
 
     private void initVP() {
-
-        activityMainBinding.myViewPager.setAdapter(mainViewPagerAdapter);
-        activityMainBinding.myTabLayout.setupWithViewPager(activityMainBinding.myViewPager);
-        activityMainBinding.myTabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
-    }
-
-    public void setWindowFlag(Activity activity, final int bits, boolean on) {
-        Window win = activity.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+        mainViewPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 1);
+        getBinding().myViewPager.setAdapter(mainViewPagerAdapter);
+        getBinding().myTabLayout.setupWithViewPager(getBinding().myViewPager);
+        getBinding().myTabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_account);
     }
 }

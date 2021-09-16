@@ -1,55 +1,61 @@
 package com.example.appmp3.view.module.splash;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.os.Looper;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.example.appmp3.R;
+import com.example.appmp3.databinding.ActivitySplashBinding;
+import com.example.appmp3.view.base.TransparentStatusBar;
 import com.example.appmp3.view.module.home.MainActivity;
+import com.example.appmp3.view.module.login.LoginActivity;
+import com.example.appmp3.viewmodel.SplashViewModel;
 
-public class SplashActivity extends AppCompatActivity {
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
+public class SplashActivity extends TransparentStatusBar<ActivitySplashBinding, SplashViewModel> {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
-        }
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-
-        new Handler().postDelayed(() -> {
-            /* Create an Intent that will start the Menu-Activity. */
-            Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-            SplashActivity.this.startActivity(mainIntent);
-            SplashActivity.this.finish();
-        }, 1000);
+    protected void addEvent() {
     }
 
-    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
-        Window win = activity.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+    @Override
+    protected void obsViewModel() {
+        getViewModel().navigateScreenObs.observe(this, new Observer<SplashViewModel.NavigateScreen>() {
+            @Override
+            public void onChanged(SplashViewModel.NavigateScreen navigateScreen) {
+                switch (navigateScreen) {
+                    case OPEN_HOME:
+                        MainActivity.startActivity(SplashActivity.this);
+                        break;
+                    case OPEN_LOGIN:
+                        LoginActivity.startActivity(SplashActivity.this);
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_splash;
+    }
+
+    @Override
+    protected Class<SplashViewModel> getViewModelClass() {
+        return SplashViewModel.class;
+    }
+
+    @Override
+    protected void init() {
+        delaySplashActivity();
+    }
+
+    private void delaySplashActivity() {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            getViewModel().checkLogin();
+        }, 1000);
     }
 }
