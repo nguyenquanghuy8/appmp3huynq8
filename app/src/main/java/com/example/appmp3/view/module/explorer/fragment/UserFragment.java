@@ -9,8 +9,8 @@ import com.example.appmp3.databinding.UserFragmentBinding;
 import com.example.appmp3.model.entity.User;
 import com.example.appmp3.view.base.BaseFragment;
 import com.example.appmp3.view.module.login.LoginActivity;
+import com.example.appmp3.view.module.upload.UploadActivity;
 import com.example.appmp3.viewmodel.UserViewModel;
-import com.google.firebase.auth.FirebaseAuth;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -20,9 +20,14 @@ public class UserFragment extends BaseFragment<UserFragmentBinding, UserViewMode
     @Override
     protected void addEvent() {
         getBinding().btnSignOut.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
+            getViewModel().signOutUser();
             Intent intent = new Intent(getContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+
+        getBinding().btnUploadSong.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), UploadActivity.class);
             startActivity(intent);
         });
     }

@@ -51,6 +51,13 @@
             android:parentActivityName=".view.module.home.MainActivity">
 
         </activity>
+
+        <activity
+            android:name=".view.module.upload.UploadActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar"
+            android:parentActivityName=".view.module.home.MainActivity">
+
+        </activity>
     </application>
 
 </manifest>

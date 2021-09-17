@@ -15,12 +15,16 @@ public class UserRepository {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
-    public static final String COLLECTION = "users";
+    public static final String COLLECTION_USERS = "users";
 
     @Inject
     public UserRepository() {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+    }
+
+    public void signOut() {
+        FirebaseAuth.getInstance().signOut();
     }
 
     public FirebaseUser getCurrentUser() {
@@ -41,7 +45,7 @@ public class UserRepository {
     public Observable<Boolean> storeUser(User user) {
         return Observable.create(emitter ->
                 firebaseFirestore
-                        .collection(COLLECTION)
+                        .collection(COLLECTION_USERS)
                         .document(getCurrentUserUid())
                         .set(user)
                         .addOnSuccessListener(unused -> emitter.onNext(true))
@@ -52,7 +56,7 @@ public class UserRepository {
     public Observable<User> getUserInfo() {
         return Observable.create(emitter ->
                 firebaseFirestore
-                        .collection(COLLECTION)
+                        .collection(COLLECTION_USERS)
                         .document(getCurrentUserUid())
                         .get()
                         .addOnSuccessListener(documentSnapshot -> {

@@ -22,8 +22,11 @@ public class UserViewModel extends BaseViewModel {
         this.userRepository = userRepository;
     }
 
+    public void signOutUser() {
+        userRepository.signOut();
+    }
+
     public void loadUserInfo() {
-        userRepository.getCurrentUser();
 
         compositeDisposable.add(
                 userRepository

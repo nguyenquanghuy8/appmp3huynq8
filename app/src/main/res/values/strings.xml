@@ -12,17 +12,26 @@
     <string name="address">Address</string>
     <string name="phone_number">Phone Number</string>
     <string name="dont_have_an_account">Don\'t have an account</string>
-    <string name="check_email_empty">Vui long nhap email</string>
-    <string name="check_email_valid">Email khong dung dinh dang</string>
-    <string name="check_password_empty">Vui long nhap password</string>
-    <string name="check_password_length">Mat khau phai lon hon 6 ky tu</string>
-    <string name="check_username_length">Vui long nhap username</string>
-    <string name="check_firstname_length">Vui long nhap first name</string>
-    <string name="check_lastname_length">Vui long nhap last name</string>
-    <string name="check_address_length">Vui long nhap address</string>
-    <string name="check_phonenumber_length">Vui long nhap phone number</string>
+    <string name="check_email_empty">Please enter email</string>
+    <string name="check_email_valid">Email is idvalid</string>
+    <string name="check_password_empty">Please enter password</string>
+    <string name="check_password_length">Password must be more than 6 characters</string>
+    <string name="check_username_length">Please enter username</string>
+    <string name="check_firstname_length">Please enter first name</string>
+    <string name="check_lastname_length">Please enter last name</string>
+    <string name="check_address_length">Please enter address</string>
+    <string name="check_phonenumber_length">Please enter phone number</string>
 
-    <string name="sign_out">Dang xuat</string>
+    <string name="user_info">User Info</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="upload_song">Upload Song</string>
+    <string name="singer">Singer name</string>
+    <string name="user_post">Post\'s username</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="upload_mp3">Upload file mp3</string>
+    <string name="upload">Upload</string>
+
+    <string name="upload_success">Upload Success</string>
 
     <string name="song_name">Song name</string>
     <string name="artist_name">Artist name</string>
