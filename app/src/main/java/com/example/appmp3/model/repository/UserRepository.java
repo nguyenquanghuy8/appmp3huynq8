@@ -24,11 +24,11 @@ public class UserRepository {
     }
 
     public void signOut() {
-        FirebaseAuth.getInstance().signOut();
+        firebaseAuth.getInstance().signOut();
     }
 
     public FirebaseUser getCurrentUser() {
-        return FirebaseAuth.getInstance().getCurrentUser();
+        return firebaseAuth.getInstance().getCurrentUser();
     }
 
     public String getCurrentUserUid() {

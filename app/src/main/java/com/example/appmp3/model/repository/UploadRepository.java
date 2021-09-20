@@ -19,9 +19,9 @@ public class UploadRepository {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
-    public static final String COLLECTION_SONGS = "songs";
-    public static final String COLLECTION_IMAGES = "images";
-    public static final String COLLECTION_MP3 = "mp3";
+    private static final String COLLECTION_SONGS = "songs";
+    private static final String COLLECTION_IMAGES = "images";
+    private static final String COLLECTION_MP3 = "mp3";
 
     @Inject
     public UploadRepository() {

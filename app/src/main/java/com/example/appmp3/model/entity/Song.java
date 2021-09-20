@@ -1,19 +1,19 @@
 package com.example.appmp3.model.entity;
 
 public class Song {
-    private String tvSongName;
-    private String tvSingerName;
-    private String tvArtistName;
-    private String tvPostName;
-    private String imgAvatarSong;
+    private String songName;
+    private String singerName;
+    private String artistName;
+    private String postName;
+    private String avatarSong;
     private String mp3Url;
 
-    public Song(String tvSongName, String tvSingerName, String tvArtistName, String tvPostName,String imgAvatarSong, String mp3Url) {
-        this.tvSongName = tvSongName;
-        this.tvSingerName = tvSingerName;
-        this.tvArtistName = tvArtistName;
-        this.tvPostName = tvPostName;
-        this.imgAvatarSong = imgAvatarSong;
+    public Song(String songName, String singerName, String artistName, String postName, String avatarSong, String mp3Url) {
+        this.songName = songName;
+        this.singerName = singerName;
+        this.artistName = artistName;
+        this.postName = postName;
+        this.avatarSong = avatarSong;
         this.mp3Url = mp3Url;
     }
 
@@ -29,43 +29,43 @@ public class Song {
         this.mp3Url = mp3Url;
     }
 
-    public String getTvSingerName() {
-        return tvSingerName;
+    public String getSingerName() {
+        return singerName;
     }
 
-    public void setTvSingerName(String tvSingerName) {
-        this.tvSingerName = tvSingerName;
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
     }
 
-    public String getTvPostName() {
-        return tvPostName;
+    public String getPostName() {
+        return postName;
     }
 
-    public void setTvPostName(String tvPostName) {
-        this.tvPostName = tvPostName;
+    public void setPostName(String postName) {
+        this.postName = postName;
     }
 
-    public String getTvSongName() {
-        return tvSongName;
+    public String getSongName() {
+        return songName;
     }
 
-    public void setTvSongName(String tvSongName) {
-        this.tvSongName = tvSongName;
+    public void setSongName(String songName) {
+        this.songName = songName;
     }
 
-    public String getTvArtistName() {
-        return tvArtistName;
+    public String getArtistName() {
+        return artistName;
     }
 
-    public void setTvArtistName(String tvArtistName) {
-        this.tvArtistName = tvArtistName;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 
-    public String getImgAvatarSong() {
-        return imgAvatarSong;
+    public String getAvatarSong() {
+        return avatarSong;
     }
 
-    public void setImgAvatarSong(String imgAvatarSong) {
-        this.imgAvatarSong = imgAvatarSong;
+    public void setAvatarSong(String avatarSong) {
+        this.avatarSong = avatarSong;
     }
 }

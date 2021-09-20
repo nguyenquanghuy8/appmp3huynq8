@@ -21,9 +21,7 @@ public class UserFragment extends BaseFragment<UserFragmentBinding, UserViewMode
     protected void addEvent() {
         getBinding().btnSignOut.setOnClickListener(v -> {
             getViewModel().signOutUser();
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            LoginActivity.startActivity(getContext());
         });
 
         getBinding().btnUploadSong.setOnClickListener(v -> {

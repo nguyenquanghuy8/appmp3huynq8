@@ -29,7 +29,7 @@ public class UploadViewModel extends BaseViewModel {
         compositeDisposable.add(
                 uploadSongImage(avatarUri)
                         .map(url -> {
-                            song.setImgAvatarSong(url);
+                            song.setAvatarSong(url);
                             return song;
                         })
                         .flatMap(songObserver -> uploadSongMp3(mp3Uri)

@@ -1,7 +1,14 @@
 package com.example.appmp3.view.module.upload;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityUploadBinding;
@@ -13,6 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadViewModel> {
+
+    private static String[] permissions = {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+    private static final int REQUEST_CODE_PERMISSION = 1;
 
     private static final int PICK_SOUND_FILE = 200;
     private static final int PICK_IMAGE_FILE = 100;
@@ -26,9 +38,16 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
         });
 
         getBinding().imgBtnUploadImage.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-            startActivityForResult(intent, PICK_IMAGE_FILE);
+
+            if (checkPermission(this)) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(intent, PICK_IMAGE_FILE);
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(permissions, REQUEST_CODE_PERMISSION);
+                }
+            }
         });
 
         getBinding().tvUploadMp3.setOnClickListener(v -> {
@@ -37,6 +56,25 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
             intent.setType("audio/mp3");
             startActivityForResult(intent, PICK_SOUND_FILE);
         });
+    }
+
+    private boolean checkPermission(Context context) {
+        boolean isWriteStorageGranted =
+                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED;
+        return isWriteStorageGranted;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            Intent intent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            startActivityForResult(intent, PICK_IMAGE_FILE);
+        }
     }
 
     @Override

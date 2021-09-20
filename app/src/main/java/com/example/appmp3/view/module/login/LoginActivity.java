@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityLoginBinding;
 import com.example.appmp3.view.base.BaseActivity;
+import com.example.appmp3.view.module.explorer.fragment.UserFragment;
 import com.example.appmp3.view.module.home.MainActivity;
 import com.example.appmp3.viewmodel.UserLoginViewModel;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,7 +20,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, UserLoginViewModel> {
 
     public static void startActivity(Context context){
-        context.startActivity(new Intent(context, LoginActivity.class));
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override

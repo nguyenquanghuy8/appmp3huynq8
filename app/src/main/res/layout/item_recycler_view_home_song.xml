@@ -48,7 +48,7 @@
             app:layout_constraintStart_toEndOf="@+id/imgAvatarSong"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            android:text="@{song.tvSongName}" />
+            android:text="@{song.songName}" />
 
         <TextView
             android:id="@+id/tvArtistName"
@@ -67,6 +67,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imgAvatarSong"
             app:layout_constraintTop_toBottomOf="@+id/tvSongName"
-            android:text="@{song.tvArtistName}" />
+            android:text="@{song.artistName}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
