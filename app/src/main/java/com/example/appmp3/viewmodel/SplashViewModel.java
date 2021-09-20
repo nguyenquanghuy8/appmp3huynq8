@@ -16,7 +16,7 @@ public class SplashViewModel extends BaseViewModel {
     public MutableLiveData<NavigateScreen> navigateScreenObs = new MutableLiveData<>();
 
     public enum NavigateScreen {
-        OPEN_HOME, OPEN_LOGIN;
+        OPEN_HOME, OPEN_LOGIN
     }
 
     @Inject

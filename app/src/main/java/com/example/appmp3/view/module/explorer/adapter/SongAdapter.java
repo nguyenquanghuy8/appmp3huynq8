@@ -54,7 +54,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             itemRecyclerViewHomeSongBinding.setSong(song);
 
             Glide.with(itemView.getContext())
-                    .load(song.getImgAvatarSong())
+                    .load(song.getAvatarSong())
                     .into(itemRecyclerViewHomeSongBinding.imgAvatarSong);
         }
     }

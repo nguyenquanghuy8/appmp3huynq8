@@ -22,20 +22,20 @@ public class SongRepository {
 
     public void fakeSongsData(GetSongCallback getSongCallback) {
         List<Song> listSong = new ArrayList<>();
-        listSong.add(new Song("Drake", "Laugh Now Cry Later", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
-        listSong.add(new Song("Drake", "Nice For What", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
-        listSong.add(new Song("Drake", "Toosie Slide", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
-        listSong.add(new Song("Drake", "Hello", "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
-        listSong.add(new Song("Justin", "What Do You Mean?", "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
-        listSong.add(new Song("Justin", "Baby?", "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
-        listSong.add(new Song("Justin", "How are you", "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
-        listSong.add(new Song("Justin", "Sorry", "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
-        listSong.add(new Song("Taylor", "Look What You Made Me Do", "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
-        listSong.add(new Song("Taylor", "The Best Day", "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
-        listSong.add(new Song("Taylor", "You Belong With Me", "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
-        listSong.add(new Song("Taylor", "Willow", "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
-        listSong.add(new Song("Taylor", "Jump Then Fall", "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
-        listSong.add(new Song("Taylor", "I Heart", "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
+//        listSong.add(new Song("Drake", null, "Laugh Now Cry Later", null, "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
+//        listSong.add(new Song("Drake", null, "Nice For What", null, "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
+//        listSong.add(new Song("Drake", null, "Toosie Slide", null, "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
+//        listSong.add(new Song("Drake", null, "Hello", null, "https://hiphop-n-more.com/wp-content/uploads/2019/09/drake-1.jpg"));
+//        listSong.add(new Song("Justin", null, "What Do You Mean?", null, "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
+//        listSong.add(new Song("Justin", null, "Baby?", null, "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
+//        listSong.add(new Song("Justin", null, "How are you", null, "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
+//        listSong.add(new Song("Justin", null, "Sorry", null, "https://i.ytimg.com/vi/qdDVtFvJwUc/maxresdefault.jpg"));
+//        listSong.add(new Song("Taylor", null, "Look What You Made Me Do", null, "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
+//        listSong.add(new Song("Taylor", null, "The Best Day", null, "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
+//        listSong.add(new Song("Taylor", null, "You Belong With Me", null, "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
+//        listSong.add(new Song("Taylor", null, "Willow", null, "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
+//        listSong.add(new Song("Taylor", null, "Jump Then Fall", null, "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
+//        listSong.add(new Song("Taylor", null, "I Heart", null, "https://media.pitchfork.com/photos/5d55ace3652fbc0009b08083/2:1/w_1200,h_600,c_limit/Taylor%20Swift.png"));
 
         Collections.shuffle(listSong);
 
