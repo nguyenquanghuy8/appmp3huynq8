@@ -27,9 +27,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int CATEGORY = 2;
     private CategoryAdapter.CategoryClickListener categoryClickListener;
     private final int ITEM_SIZE = 3;
+    private HomeAdapterClickListener homeAdapterClickListener;
 
-    public HomeAdapter(CategoryAdapter.CategoryClickListener categoryClickListener) {
+    public HomeAdapter(CategoryAdapter.CategoryClickListener categoryClickListener,
+                       HomeAdapterClickListener homeAdapterClickListener) {
         this.categoryClickListener = categoryClickListener;
+        this.homeAdapterClickListener = homeAdapterClickListener;
     }
 
     public void updateAdapterCategory(List<Category> mListCategory) {
@@ -50,7 +53,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return new BannerViewHolder(viewBanner);
             case 1:
                 ItemHomeSelectionBinding viewSelection = ItemHomeSelectionBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new SelectionViewHolder(viewSelection);
+                return new SelectionViewHolder(viewSelection, homeAdapterClickListener);
             case 2:
                 ItemHomeCategoryBinding viewCategory = ItemHomeCategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
                 return new CategoryViewHolder(viewCategory);
@@ -70,6 +73,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case SELECTION:
                 if (holder instanceof SelectionViewHolder) {
+                    ((SelectionViewHolder) holder).bind();
                 }
                 break;
             case CATEGORY:
@@ -117,10 +121,18 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class SelectionViewHolder extends RecyclerView.ViewHolder {
         private ItemHomeSelectionBinding itemHomeSelectionBinding;
+        private HomeAdapterClickListener homeAdapterClickListener;
 
-        SelectionViewHolder(ItemHomeSelectionBinding itemView) {
+        SelectionViewHolder(ItemHomeSelectionBinding itemView, HomeAdapterClickListener homeAdapterClickListener) {
             super(itemView.getRoot());
             itemHomeSelectionBinding = itemView;
+            this.homeAdapterClickListener = homeAdapterClickListener;
+        }
+
+        public void bind() {
+            itemHomeSelectionBinding.llCategory.setOnClickListener(v ->
+                    homeAdapterClickListener.onAllCategoryClicked()
+            );
         }
     }
 
@@ -137,5 +149,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemHomeCategoryBinding.recyclerViewHomeCategory.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
             itemHomeCategoryBinding.recyclerViewHomeCategory.setAdapter(categoryAdapter);
         }
+    }
+
+    public interface HomeAdapterClickListener {
+        void onAllCategoryClicked();
     }
 }

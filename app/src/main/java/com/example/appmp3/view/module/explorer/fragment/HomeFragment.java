@@ -1,7 +1,5 @@
 package com.example.appmp3.view.module.explorer.fragment;
 
-import android.content.Intent;
-
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -10,6 +8,7 @@ import com.example.appmp3.databinding.HomeFragmentBinding;
 import com.example.appmp3.model.entity.Banner;
 import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.view.base.BaseFragment;
+import com.example.appmp3.view.module.categories.CategoriesActivity;
 import com.example.appmp3.view.module.categorydetail.DetailCategoryActivity;
 import com.example.appmp3.view.module.explorer.adapter.CategoryAdapter;
 import com.example.appmp3.view.module.explorer.adapter.HomeAdapter;
@@ -20,7 +19,8 @@ import java.util.List;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewModel> implements CategoryAdapter.CategoryClickListener {
+public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewModel>
+        implements CategoryAdapter.CategoryClickListener, HomeAdapter.HomeAdapterClickListener {
     private HomeAdapter homeAdapter;
     private Observer<List<Category>> categoryListUpdateObserver = categories -> homeAdapter.updateAdapterCategory(categories);
     private Observer<List<Banner>> bannerListUpdateObserver = banners -> homeAdapter.updateAdapterBanner(banners);
@@ -55,15 +55,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewMode
     }
 
     private void initRV() {
-        homeAdapter = new HomeAdapter(this);
+        homeAdapter = new HomeAdapter(this, this);
         getBinding().rvHome.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().rvHome.setAdapter(homeAdapter);
     }
 
     @Override
     public void onCategoryClicked(Category category) {
-        Intent intent = new Intent(getContext(), DetailCategoryActivity.class);
-        intent.putExtra(DetailCategoryActivity.EXTRA_CATEGORY, category);
-        startActivity(intent);
+        DetailCategoryActivity.startActivity(getContext(), category);
+    }
+
+    @Override
+    public void onAllCategoryClicked() {
+        CategoriesActivity.startActivity(requireContext());
     }
 }

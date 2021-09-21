@@ -3,41 +3,46 @@ package com.example.appmp3.model.entity;
 import java.io.Serializable;
 
 public class Category implements Serializable {
-    private String categoryId;
-    private String categoryName;
-    private String imageUrl;
+    private String id;
+    private String name;
+    private String banner;
 
-    public Category(String categoryId, String categoryName, String imageUrl) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.imageUrl = imageUrl;
+    public Category(String id, String name, String banner) {
+        this.id = id;
+        this.name = name;
+        this.banner = banner;
     }
 
     public Category() {
 
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getId() {
+        return id;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getBanner() {
+        return banner;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

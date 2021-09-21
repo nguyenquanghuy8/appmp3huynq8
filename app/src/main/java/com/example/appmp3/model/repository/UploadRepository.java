@@ -2,12 +2,14 @@ package com.example.appmp3.model.repository;
 
 import android.net.Uri;
 
+import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.entity.Song;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
