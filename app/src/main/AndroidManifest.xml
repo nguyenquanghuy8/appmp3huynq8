@@ -3,9 +3,9 @@
     package="com.example.appmp3">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".view.module.MainApplication"
@@ -28,36 +28,44 @@
 
         <activity
             android:name=".view.module.home.MainActivity"
-            android:theme="@style/Theme.AppMp3.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppMp3.NoActionBar"></activity>
 
         <activity
             android:name=".view.module.categorydetail.DetailCategoryActivity"
-            android:theme="@style/Theme.AppMp3.NoActionBar"
-            android:parentActivityName=".view.module.home.MainActivity">
+            android:parentActivityName=".view.module.home.MainActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar">
 
         </activity>
 
         <activity
             android:name=".view.module.login.LoginActivity"
-            android:theme="@style/Theme.AppMp3.NoActionBar"
-            android:parentActivityName=".view.module.home.MainActivity">
+            android:parentActivityName=".view.module.home.MainActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar">
 
         </activity>
 
         <activity
             android:name=".view.module.login.RegisterActivity"
-            android:theme="@style/Theme.AppMp3.NoActionBar"
-            android:parentActivityName=".view.module.home.MainActivity">
+            android:parentActivityName=".view.module.home.MainActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar">
 
         </activity>
 
         <activity
             android:name=".view.module.upload.UploadActivity"
-            android:theme="@style/Theme.AppMp3.NoActionBar"
-            android:parentActivityName=".view.module.home.MainActivity">
+            android:parentActivityName=".view.module.home.MainActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar">
 
         </activity>
+
+        <activity
+            android:name=".view.module.player.PlayerActivity"
+            android:parentActivityName=".view.module.home.MainActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar">
+
+        </activity>
+
+        <service android:name=".service.PlayServices" />
     </application>
 
 </manifest>

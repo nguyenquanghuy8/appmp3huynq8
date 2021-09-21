@@ -1,6 +1,8 @@
 package com.example.appmp3.model.entity;
 
-public class Song {
+import java.io.Serializable;
+
+public class Song implements Serializable {
     private String songName;
     private String singerName;
     private String artistName;

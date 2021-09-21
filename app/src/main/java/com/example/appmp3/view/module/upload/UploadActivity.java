@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -86,8 +88,31 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
         }
         if (resultCode == RESULT_OK && requestCode == PICK_SOUND_FILE) {
             mUriMp3 = data.getData();
-            getBinding().tvUploadMp3.setText(mUriMp3.toString());
+            String fileName = getFileName(mUriMp3);
+            getBinding().tvUploadMp3.setText(fileName);
         }
+    }
+
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
     @Override
