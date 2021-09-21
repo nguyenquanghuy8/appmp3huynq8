@@ -82,6 +82,7 @@ public class SongRepository {
                                     songs.add(value.toObject(Song.class));
                                 }
                                 emitter.onNext(songs);
+                                emitter.onComplete();
                             }
                         })
                         .addOnFailureListener(emitter::onError));

@@ -31,6 +31,7 @@ public class CategoryRepository {
                         .addOnSuccessListener(documentSnapshot -> {
                             List<Category> categories = documentSnapshot.toObjects(Category.class);
                             emitter.onNext(categories);
+                            emitter.onComplete();
                         })
                         .addOnFailureListener(emitter::onError));
     }
