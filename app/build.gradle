@@ -77,8 +77,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
 
-    //multi dex
-    implementation 'com.android.support:multidex:1.0.3'
+//    //multi dex
+//    implementation 'com.android.support:multidex:1.0.3'
 
 //    Rx
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'

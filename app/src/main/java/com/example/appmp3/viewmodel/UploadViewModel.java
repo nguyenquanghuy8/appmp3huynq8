@@ -4,9 +4,13 @@ import android.net.Uri;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.entity.Song;
+import com.example.appmp3.model.repository.CategoryRepository;
 import com.example.appmp3.model.repository.UploadRepository;
 import com.example.appmp3.view.base.BaseViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,10 +23,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class UploadViewModel extends BaseViewModel {
     private UploadRepository uploadRepository;
     public MutableLiveData<Boolean> songLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<Category>> getCategoriesObs = new MutableLiveData<>();
+    private CategoryRepository categoryRepository;
 
     @Inject
-    public UploadViewModel(UploadRepository uploadRepository) {
+    public UploadViewModel(
+            UploadRepository uploadRepository,
+            CategoryRepository categoryRepository) {
         this.uploadRepository = uploadRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public void uploadSongInfo(Uri avatarUri, Uri mp3Uri, Song song) {
@@ -44,6 +53,18 @@ public class UploadViewModel extends BaseViewModel {
                         .doOnSubscribe(onSubscribe -> notifyShowLoading())
                         .doOnComplete(this::notifyHideLoading)
                         .subscribe(response -> songLiveData.postValue(true), this::notifyError)
+        );
+    }
+
+    public void getCategories() {
+        compositeDisposable.add(
+                categoryRepository.getCategories()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(onError -> notifyHideLoading())
+                        .doOnSubscribe(onSubscribe -> notifyShowLoading())
+                        .doOnComplete(this::notifyHideLoading)
+                        .subscribe(response -> getCategoriesObs.postValue(response), this::notifyError)
         );
     }
 

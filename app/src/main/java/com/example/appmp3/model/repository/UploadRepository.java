@@ -5,7 +5,6 @@ import android.net.Uri;
 import com.example.appmp3.model.entity.Song;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -41,7 +40,11 @@ public class UploadRepository {
                         .collection(COLLECTION_SONGS)
                         .document(getCurrentUserUid() + System.currentTimeMillis())
                         .set(song)
-                        .addOnSuccessListener(unused -> emitter.onNext(true))
+                        .addOnSuccessListener(unused -> {
+                                    emitter.onNext(true);
+                                    emitter.onComplete();
+                                }
+                        )
                         .addOnFailureListener(emitter::onError)
         );
     }
@@ -55,6 +58,7 @@ public class UploadRepository {
                         .addOnSuccessListener(documentSnapshot -> {
                             Song song = documentSnapshot.toObject(Song.class);
                             emitter.onNext(song);
+                            emitter.onComplete();
                         })
                         .addOnFailureListener(emitter::onError));
     }
@@ -73,7 +77,10 @@ public class UploadRepository {
         return Observable.create(emitter ->
                 fileRef
                         .putFile(uri)
-                        .addOnSuccessListener(taskSnapshot -> emitter.onNext(fileRef))
+                        .addOnSuccessListener(taskSnapshot -> {
+                            emitter.onNext(fileRef);
+                            emitter.onComplete();
+                        })
                         .addOnFailureListener(emitter::onError)
         );
     }
@@ -82,7 +89,10 @@ public class UploadRepository {
         return Observable.create(emitter ->
                 storageReference
                         .getDownloadUrl()
-                        .addOnSuccessListener(uri -> emitter.onNext(uri.toString()))
+                        .addOnSuccessListener(uri -> {
+                            emitter.onNext(uri.toString());
+                            emitter.onComplete();
+                        })
                         .addOnFailureListener(emitter::onError));
     }
 }

@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
 
-    <data>
-        <variable
-            name="category"
-            type="com.example.appmp3.model.entity.Category" />
-
-        <variable
-            name="detailCategoryActivity"
-            type="com.example.appmp3.view.module.categorydetail.DetailCategoryActivity" />
-    </data>
-
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -29,10 +18,9 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imgBtnBack"
+                    android:id="@+id/ivBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:onClick="@{detailCategoryActivity::onClickBtnBack}"
                     android:background="@drawable/ic_back" />
 
                 <TextView
@@ -43,14 +31,14 @@
                     android:ellipsize="end"
                     android:gravity="center|start"
                     android:maxLines="1"
+                    android:text="Categories"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    tools:text="@{category.name}" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerDetailCategory"
+            android:id="@+id/rvCategories"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

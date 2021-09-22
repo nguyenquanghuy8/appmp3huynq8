@@ -13,6 +13,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
 public class HomeViewModel extends BaseViewModel {
@@ -31,19 +33,15 @@ public class HomeViewModel extends BaseViewModel {
     public void getCategory() {
         loadingLiveData.postValue(true);
 
-        categoryRepository.fakeCategoriesData(new CategoryRepository.GetCategoryCallBack() {
-            @Override
-            public void onSuccess(List<Category> categories) {
-                categoryLiveData.postValue(categories);
-                loadingLiveData.postValue(false);
-            }
-
-            @Override
-            public void onFail(String error) {
-                errorLiveData.postValue(error);
-                loadingLiveData.postValue(false);
-            }
-        });
+        compositeDisposable.add(
+                categoryRepository.getCategories()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(onError -> notifyHideLoading())
+                        .doOnSubscribe(onSubscribe -> notifyShowLoading())
+                        .doOnComplete(this::notifyHideLoading)
+                        .subscribe(response -> categoryLiveData.postValue(response), this::notifyError)
+        );
     }
 
     public void getBanner() {
