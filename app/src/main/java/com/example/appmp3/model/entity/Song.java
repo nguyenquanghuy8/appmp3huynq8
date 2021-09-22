@@ -10,14 +10,16 @@ public class Song implements Serializable {
     private String postName;
     private String avatarSong;
     private String mp3Url;
+    private String collectionId;
 
-    public Song(String songName, String singerName, String artistName, String postName, String avatarSong, String mp3Url) {
+    public Song(String songName, String singerName, String artistName, String postName, String avatarSong, String mp3Url, String collectionId) {
         this.songName = songName;
         this.singerName = singerName;
         this.artistName = artistName;
         this.postName = postName;
         this.avatarSong = avatarSong;
         this.mp3Url = mp3Url;
+        this.collectionId = collectionId;
     }
 
     public Song() {
@@ -70,6 +72,14 @@ public class Song implements Serializable {
 
     public void setAvatarSong(String avatarSong) {
         this.avatarSong = avatarSong;
+    }
+
+    public String getCollectionId() {
+        return collectionId;
+    }
+
+    public void setCollectionId(String collectionId) {
+        this.collectionId = collectionId;
     }
 
     @Override
