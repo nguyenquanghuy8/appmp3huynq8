@@ -60,8 +60,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:textAlignment="center"
                     android:text="@{song.singerName}"
+                    android:textAlignment="center"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -78,35 +78,35 @@
                 android:paddingBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <!--                <SeekBar-->
-                <!--                    android:id="@+id/seekbar_player_fragment"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginBottom="16dp"-->
-                <!--                    android:progressTint="@color/colorPlayerText"-->
-                <!--                    android:thumbTint="@color/colorPlayerText"-->
-                <!--                    app:layout_constraintBottom_toTopOf="@id/btn_play_player_fragment"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent" />-->
+                <SeekBar
+                    android:id="@+id/seekbarPlayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:progressTint="@color/white"
+                    android:thumbTint="@color/white"
+                    app:layout_constraintBottom_toTopOf="@id/btnPlayPlayer"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <!--                <TextView-->
-                <!--                    android:id="@+id/tv_song_current_time_player_fragment"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginStart="12dp"-->
-                <!--                    android:text="0:00"-->
-                <!--                    android:textColor="@color/colorPlayerText"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@id/seekbar_player_fragment" />-->
+                <TextView
+                    android:id="@+id/tvSongCurrentTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="0:00"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seekbarPlayer" />
 
-                <!--                <TextView-->
-                <!--                    android:id="@+id/tv_song_complete_time_player_fragment"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginEnd="12dp"-->
-                <!--                    android:textColor="@color/colorPlayerText"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@id/seekbar_player_fragment"-->
-                <!--                    tools:text="3:33" />-->
+                <TextView
+                    android:id="@+id/tvSongCompleteTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seekbarPlayer"
+                    android:text="3:33" />
 
                 <ImageButton
                     android:id="@+id/btnPreviousPlayer"
@@ -115,10 +115,9 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="42dp"
                     android:background="@drawable/ic_rewind"
-                    android:foreground="?attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/btnPlayPlayer"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btnPlayPlayer"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/btnPlayPlayer" />
 
                 <ImageButton
@@ -127,8 +126,6 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/ic_play"
-                    android:foreground="?attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btnNextPlayer"
                     app:layout_constraintStart_toEndOf="@id/btnPreviousPlayer" />

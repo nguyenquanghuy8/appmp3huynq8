@@ -1,6 +1,7 @@
 package com.example.appmp3.model.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Song implements Serializable {
     private String songName;
@@ -69,5 +70,18 @@ public class Song implements Serializable {
 
     public void setAvatarSong(String avatarSong) {
         this.avatarSong = avatarSong;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return Objects.equals(songName, song.songName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(songName);
     }
 }

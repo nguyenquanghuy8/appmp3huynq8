@@ -73,6 +73,6 @@ public class DetailCategoryActivity extends BaseActivity<ActivityDetailCategoryB
 
     @Override
     public void onItemSongClick(Song song) {
-        PlayerActivity.startActivity(this, song);
+        PlayerActivity.startActivity(this, song, songAdapter.getItemsAdapter());
     }
 }
