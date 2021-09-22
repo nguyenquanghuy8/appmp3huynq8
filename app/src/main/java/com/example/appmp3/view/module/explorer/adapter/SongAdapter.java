@@ -72,4 +72,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     public interface OnItemSongClickListener {
         void onItemSongClick(Song song);
     }
+
+    public List<Song> getItemsAdapter(){
+        return mListSong;
+    }
 }
