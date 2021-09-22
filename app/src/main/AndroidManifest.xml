@@ -66,10 +66,6 @@
 
         </activity>
 
-        <activity
-            android:name=".view.module.categories.CategoriesActivity"
-            android:theme="@style/Theme.AppMp3.NoActionBar" />
-
         <service android:name=".service.PlayServices" />
     </application>
 

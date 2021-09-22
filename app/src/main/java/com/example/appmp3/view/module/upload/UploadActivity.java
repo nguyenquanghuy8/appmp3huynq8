@@ -8,19 +8,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.OpenableColumns;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityUploadBinding;
-import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.entity.Song;
 import com.example.appmp3.view.base.BaseActivity;
 import com.example.appmp3.viewmodel.UploadViewModel;
-
-import java.util.ArrayList;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -36,20 +32,6 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
     private static final int PICK_IMAGE_FILE = 100;
     private Uri mUriImage;
     private Uri mUriMp3;
-    private ArrayAdapter<Category> categoriesAdapter;
-
-    @Override
-    protected void init() {
-        getViewModel().getCategories();
-
-        initCategoriesSpinner();
-    }
-
-    private void initCategoriesSpinner() {
-        categoriesAdapter = new ArrayAdapter<>(this, R.layout.item_spinner_category, new ArrayList<>());
-        categoriesAdapter.setDropDownViewResource(R.layout.item_spinner_category_list);
-        getBinding().spCategory.setAdapter(categoriesAdapter);
-    }
 
     @Override
     protected void addEvent() {
@@ -58,6 +40,7 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
         });
 
         getBinding().imgBtnUploadImage.setOnClickListener(v -> {
+
             if (checkPermission(this)) {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -135,10 +118,6 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
     @Override
     protected void obsViewModel() {
         getViewModel().songLiveData.observe(this, aBoolean -> finish());
-        getViewModel().getCategoriesObs.observe(this, categories -> {
-            categoriesAdapter.addAll(categories);
-            categoriesAdapter.notifyDataSetChanged();
-        });
     }
 
     @Override
@@ -151,15 +130,18 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
         return UploadViewModel.class;
     }
 
+    @Override
+    protected void init() {
+
+    }
+
     private void onUploadClick() {
         String songName = getBinding().edtSongName.getText().toString().trim();
         String singerName = getBinding().edtSingerName.getText().toString().trim();
         String artistName = getBinding().edtArtistName.getText().toString().trim();
         String postName = getBinding().edtPostName.getText().toString().trim();
 
-        Category selectedCategory = (Category) getBinding().spCategory.getSelectedItem();
-
-        Song song = new Song(songName, singerName, artistName, postName, null, null, selectedCategory.getId());
+        Song song = new Song(songName, singerName, artistName, postName, null, null);
         getViewModel().uploadSongInfo(mUriImage, mUriMp3, song);
     }
 }

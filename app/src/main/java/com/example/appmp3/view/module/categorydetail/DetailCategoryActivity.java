@@ -1,6 +1,5 @@
 package com.example.appmp3.view.module.categorydetail;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
@@ -21,18 +20,13 @@ import java.util.List;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class DetailCategoryActivity extends BaseActivity<ActivityDetailCategoryBinding, SongViewModel> implements SongAdapter.OnItemSongClickListener {
+public class DetailCategoryActivity extends BaseActivity<ActivityDetailCategoryBinding, SongViewModel> implements SongAdapter.OnItemSongClickListener{
     private SongAdapter songAdapter = new SongAdapter(this);
     private Category category;
 
-    private static final String EXTRA_CATEGORY = "extra_category";
-    private Observer<List<Song>> songListUpdateObserver = songs -> songAdapter.updateAdapter(songs);
+    public static final String EXTRA_CATEGORY = "extra_category";
 
-    public static void startActivity(Context context, Category category) {
-        Intent intent = new Intent(context, DetailCategoryActivity.class);
-        intent.putExtra(EXTRA_CATEGORY, category);
-        context.startActivity(intent);
-    }
+    private Observer<List<Song>> songListUpdateObserver = songs -> songAdapter.updateAdapter(songs);
 
     @Override
     protected void addEvent() {

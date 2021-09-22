@@ -53,7 +53,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public void bind(Category category) {
             itemCategoryBinding.setCategory(category);
-            String imgAva = category.getBanner();
+            String imgAva = category.getImageUrl();
             Glide.with(itemView.getContext())
                     .load(imgAva)
                     .into(itemCategoryBinding.ivAvatar);
