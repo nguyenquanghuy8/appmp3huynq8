@@ -25,7 +25,7 @@ public class DetailCategoryActivity extends BaseActivity<ActivityDetailCategoryB
     private SongAdapter songAdapter = new SongAdapter(this);
     private Category category;
 
-    private static final String EXTRA_CATEGORY = "extra_category";
+    protected static final String EXTRA_CATEGORY = "extra_category";
     private Observer<List<Song>> songListUpdateObserver = songs -> songAdapter.updateAdapter(songs);
 
     public static void startActivity(Context context, Category category) {

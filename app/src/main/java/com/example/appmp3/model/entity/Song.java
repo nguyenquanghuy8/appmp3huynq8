@@ -1,5 +1,7 @@
 package com.example.appmp3.model.entity;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,15 +12,17 @@ public class Song implements Serializable {
     private String postName;
     private String avatarSong;
     private String mp3Url;
+    private String videoUrl;
     private String collectionId;
 
-    public Song(String songName, String singerName, String artistName, String postName, String avatarSong, String mp3Url, String collectionId) {
+    public Song(String songName, String singerName, String artistName, String postName, String avatarSong, String mp3Url, String videoUrl, String collectionId) {
         this.songName = songName;
         this.singerName = singerName;
         this.artistName = artistName;
         this.postName = postName;
         this.avatarSong = avatarSong;
         this.mp3Url = mp3Url;
+        this.videoUrl = videoUrl;
         this.collectionId = collectionId;
     }
 
@@ -74,12 +78,24 @@ public class Song implements Serializable {
         this.avatarSong = avatarSong;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
     public String getCollectionId() {
         return collectionId;
     }
 
     public void setCollectionId(String collectionId) {
         this.collectionId = collectionId;
+    }
+
+    public boolean isHaveVideo() {
+        return !TextUtils.isEmpty(videoUrl);
     }
 
     @Override

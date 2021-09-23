@@ -34,7 +34,7 @@ public class UploadViewModel extends BaseViewModel {
         this.categoryRepository = categoryRepository;
     }
 
-    public void uploadSongInfo(Uri avatarUri, Uri mp3Uri, Song song) {
+    public void uploadSongInfo(Uri avatarUri, Uri mp3Uri, Uri videoUri, Song song) {
         compositeDisposable.add(
                 uploadSongImage(avatarUri)
                         .map(url -> {
@@ -44,6 +44,11 @@ public class UploadViewModel extends BaseViewModel {
                         .flatMap(songObserver -> uploadSongMp3(mp3Uri)
                                 .map(url2 -> {
                                     song.setMp3Url(url2);
+                                    return song;
+                                }))
+                        .flatMap(videoObserver -> uploadSongVideo(videoUri)
+                                .map(url3 -> {
+                                    song.setVideoUrl(url3);
                                     return song;
                                 }))
                         .flatMap(songs -> uploadRepository.storeSongs(song))
@@ -77,6 +82,12 @@ public class UploadViewModel extends BaseViewModel {
     private Observable<String> uploadSongMp3(Uri uri) {
         return uploadRepository
                 .storeMp3(uri)
+                .flatMap(ref -> uploadRepository.getDownloadUrl(ref));
+    }
+
+    private Observable<String> uploadSongVideo(Uri uri) {
+        return uploadRepository
+                .storeVideo(uri)
                 .flatMap(ref -> uploadRepository.getDownloadUrl(ref));
     }
 }

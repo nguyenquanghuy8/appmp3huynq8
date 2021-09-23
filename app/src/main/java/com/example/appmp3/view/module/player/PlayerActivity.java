@@ -54,7 +54,6 @@ public class PlayerActivity extends BaseActivity<ActivityPlayerBinding, PlayerVi
             }
         }, Context.BIND_AUTO_CREATE);
         getBinding().btnPlayPlayer.setImageResource(R.drawable.ic_play);
-        song.getAvatarSong();
         Glide.with(this)
                 .load(song.getAvatarSong())
                 .into(getBinding().imgAvatarSong);

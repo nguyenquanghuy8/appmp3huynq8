@@ -29,6 +29,7 @@
     <string name="user_post">Post\'s username</string>
     <string name="upload_image">Upload Image</string>
     <string name="upload_mp3">Upload file mp3</string>
+    <string name="upload_video">Upload video</string>
     <string name="upload">Upload</string>
 
     <string name="upload_success">Upload Success</string>

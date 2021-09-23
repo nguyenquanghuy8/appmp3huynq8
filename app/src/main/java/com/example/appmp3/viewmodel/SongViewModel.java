@@ -25,7 +25,6 @@ public class SongViewModel extends BaseViewModel {
     @Inject
     public SongViewModel(SongRepository songRepository) {
         this.songRepository = songRepository;
-        songLiveData = new MutableLiveData<>();
     }
 
     public void getSong() {
@@ -44,6 +43,23 @@ public class SongViewModel extends BaseViewModel {
                 loadingLiveData.postValue(false);
             }
         });
+    }
+
+    public void getVideos() {
+        compositeDisposable.add(
+                songRepository
+                        .getSongInfo()
+                        .flatMapIterable(songs -> songs)
+                        .filter(song -> song.isHaveVideo())
+                        .toList()
+                        .toObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(onError -> notifyHideLoading())
+                        .doOnSubscribe(onSubscribe -> notifyShowLoading())
+                        .doOnComplete(this::notifyHideLoading)
+                        .subscribe(result -> songLiveData.postValue(result), this::notifyError)
+        );
     }
 
     public void loadSongInfo() {

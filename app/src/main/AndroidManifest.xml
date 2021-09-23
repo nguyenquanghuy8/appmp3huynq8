@@ -70,6 +70,17 @@
             android:name=".view.module.categories.CategoriesActivity"
             android:theme="@style/Theme.AppMp3.NoActionBar" />
 
+        <activity
+            android:name=".view.module.video.VideoPlayerActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar" />
+
+        <activity
+            android:name=".view.module.video.DetailVideoCategoryActivity"
+            android:parentActivityName=".view.module.home.MainActivity"
+            android:theme="@style/Theme.AppMp3.NoActionBar">
+
+        </activity>
+
         <service android:name=".service.PlayServices" />
     </application>
 

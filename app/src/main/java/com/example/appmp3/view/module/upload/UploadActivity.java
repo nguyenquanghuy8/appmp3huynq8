@@ -34,8 +34,11 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
 
     private static final int PICK_SOUND_FILE = 200;
     private static final int PICK_IMAGE_FILE = 100;
+    private static final int PICK_VIDEO_FILE = 300;
+
     private Uri mUriImage;
     private Uri mUriMp3;
+    private Uri mUriVideo;
     private ArrayAdapter<Category> categoriesAdapter;
 
     @Override
@@ -75,6 +78,13 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
             intent.setType("audio/mp3");
             startActivityForResult(intent, PICK_SOUND_FILE);
         });
+
+        getBinding().tvUploadVideo.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("video/*");
+            startActivityForResult(intent, PICK_VIDEO_FILE);
+        });
     }
 
     private boolean checkPermission(Context context) {
@@ -107,6 +117,11 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
             mUriMp3 = data.getData();
             String fileName = getFileName(mUriMp3);
             getBinding().tvUploadMp3.setText(fileName);
+        }
+        if (resultCode == RESULT_OK && requestCode == PICK_VIDEO_FILE) {
+            mUriVideo = data.getData();
+            String fileName = getFileName(mUriVideo);
+            getBinding().tvUploadVideo.setText(fileName);
         }
     }
 
@@ -159,7 +174,7 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
 
         Category selectedCategory = (Category) getBinding().spCategory.getSelectedItem();
 
-        Song song = new Song(songName, singerName, artistName, postName, null, null, selectedCategory.getId());
-        getViewModel().uploadSongInfo(mUriImage, mUriMp3, song);
+        Song song = new Song(songName, singerName, artistName, postName, null, null, null, selectedCategory.getId());
+        getViewModel().uploadSongInfo(mUriImage, mUriMp3, mUriVideo, song);
     }
 }

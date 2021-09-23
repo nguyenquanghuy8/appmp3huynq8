@@ -22,6 +22,7 @@ public class UploadRepository {
     private static final String COLLECTION_SONGS = "songs";
     private static final String COLLECTION_IMAGES = "images";
     private static final String COLLECTION_MP3 = "mp3";
+    private static final String COLLECTION_VIDEOS = "videos";
 
     @Inject
     public UploadRepository() {
@@ -69,6 +70,10 @@ public class UploadRepository {
 
     public Observable<StorageReference> storeMp3(Uri uri) {
         return storageFile(COLLECTION_MP3, getCurrentUserUid() + "-mp3-" + System.currentTimeMillis(), uri);
+    }
+
+    public Observable<StorageReference> storeVideo(Uri uri) {
+        return storageFile(COLLECTION_VIDEOS, getCurrentUserUid() + "-videos-" + System.currentTimeMillis(), uri);
     }
 
     private Observable<StorageReference> storageFile(String collection, String fileName, Uri uri) {
