@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="category"
+            name="video"
             type="com.example.appmp3.model.entity.Category" />
 
     </data>
@@ -24,7 +24,7 @@
             app:cardCornerRadius="10dp">
 
             <ImageView
-                android:id="@+id/ivAvatar"
+                android:id="@+id/ivAvatarVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_shape"
@@ -32,7 +32,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvNameVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -40,7 +40,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:text="@{category.name}"
+            android:text="@{video.name}"
             android:textColor="@color/white"
             android:textSize="15sp" />
 

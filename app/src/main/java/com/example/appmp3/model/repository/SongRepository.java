@@ -1,10 +1,20 @@
 package com.example.appmp3.model.repository;
 
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.example.appmp3.model.entity.Song;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,12 +22,22 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.rxjava3.core.Observable;
+
 @Singleton
 public class SongRepository {
 
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private StorageReference storageReference;
+    private static final String COLLECTION_SONGS = "songs";
+    private List<Song> postList;
+
     @Inject
     public SongRepository() {
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     public void fakeSongsData(GetSongCallback getSongCallback) {
@@ -45,6 +65,27 @@ public class SongRepository {
                 getSongCallback.onSuccess(listSong);
             }
         }, 1500);
+    }
+
+    public Observable<List<Song>> getSongInfo() {
+
+        return Observable.create(emitter ->
+                firebaseFirestore
+                        .collection(COLLECTION_SONGS)
+//                        .document(getCurrentUserUid())
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot != null && !documentSnapshot.getDocuments().isEmpty()) {
+                                List<Song> songs = new ArrayList<>();
+                                List<DocumentSnapshot> documentSnapshots = documentSnapshot.getDocuments();
+                                for (DocumentSnapshot value: documentSnapshots) {
+                                    songs.add(value.toObject(Song.class));
+                                }
+                                emitter.onNext(songs);
+                                emitter.onComplete();
+                            }
+                        })
+                        .addOnFailureListener(emitter::onError));
     }
 
     public interface GetSongCallback {

@@ -4,17 +4,24 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.OpenableColumns;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityUploadBinding;
+import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.entity.Song;
+import com.example.appmp3.ultils.IntentUtils;
 import com.example.appmp3.view.base.BaseActivity;
 import com.example.appmp3.viewmodel.UploadViewModel;
+
+import java.util.ArrayList;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -28,8 +35,25 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
 
     private static final int PICK_SOUND_FILE = 200;
     private static final int PICK_IMAGE_FILE = 100;
+    private static final int PICK_VIDEO_FILE = 300;
+
     private Uri mUriImage;
     private Uri mUriMp3;
+    private Uri mUriVideo;
+    private ArrayAdapter<Category> categoriesAdapter;
+
+    @Override
+    protected void init() {
+        getViewModel().getCategories();
+
+        initCategoriesSpinner();
+    }
+
+    private void initCategoriesSpinner() {
+        categoriesAdapter = new ArrayAdapter<>(this, R.layout.item_spinner_category, new ArrayList<>());
+        categoriesAdapter.setDropDownViewResource(R.layout.item_spinner_category_list);
+        getBinding().spCategory.setAdapter(categoriesAdapter);
+    }
 
     @Override
     protected void addEvent() {
@@ -38,7 +62,6 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
         });
 
         getBinding().imgBtnUploadImage.setOnClickListener(v -> {
-
             if (checkPermission(this)) {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -52,9 +75,14 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
 
         getBinding().tvUploadMp3.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("audio/mp3");
+            IntentUtils.bindIntentAudio(intent);
             startActivityForResult(intent, PICK_SOUND_FILE);
+        });
+
+        getBinding().tvUploadVideo.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            IntentUtils.bindIntentVideo(intent);
+            startActivityForResult(intent, PICK_VIDEO_FILE);
         });
     }
 
@@ -86,13 +114,45 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
         }
         if (resultCode == RESULT_OK && requestCode == PICK_SOUND_FILE) {
             mUriMp3 = data.getData();
-            getBinding().tvUploadMp3.setText(mUriMp3.toString());
+            String fileName = getFileName(mUriMp3);
+            getBinding().tvUploadMp3.setText(fileName);
         }
+        if (resultCode == RESULT_OK && requestCode == PICK_VIDEO_FILE) {
+            mUriVideo = data.getData();
+            String fileName = getFileName(mUriVideo);
+            getBinding().tvUploadVideo.setText(fileName);
+        }
+    }
+
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
     @Override
     protected void obsViewModel() {
         getViewModel().songLiveData.observe(this, aBoolean -> finish());
+        getViewModel().getCategoriesObs.observe(this, categories -> {
+            categoriesAdapter.addAll(categories);
+            categoriesAdapter.notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -105,18 +165,15 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
         return UploadViewModel.class;
     }
 
-    @Override
-    protected void init() {
-
-    }
-
     private void onUploadClick() {
         String songName = getBinding().edtSongName.getText().toString().trim();
         String singerName = getBinding().edtSingerName.getText().toString().trim();
         String artistName = getBinding().edtArtistName.getText().toString().trim();
         String postName = getBinding().edtPostName.getText().toString().trim();
 
-        Song song = new Song(songName, singerName, artistName, postName, null, null);
-        getViewModel().uploadSongInfo(mUriImage, mUriMp3, song);
+        Category selectedCategory = (Category) getBinding().spCategory.getSelectedItem();
+
+        Song song = new Song(songName, singerName, artistName, postName, null, null, null, selectedCategory.getId());
+        getViewModel().uploadSongInfo(mUriImage, mUriMp3, mUriVideo, song);
     }
 }

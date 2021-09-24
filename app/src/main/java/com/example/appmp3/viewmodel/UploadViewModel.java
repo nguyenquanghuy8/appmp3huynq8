@@ -4,9 +4,13 @@ import android.net.Uri;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.entity.Song;
+import com.example.appmp3.model.repository.CategoryRepository;
 import com.example.appmp3.model.repository.UploadRepository;
 import com.example.appmp3.view.base.BaseViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,13 +23,18 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class UploadViewModel extends BaseViewModel {
     private UploadRepository uploadRepository;
     public MutableLiveData<Boolean> songLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<Category>> getCategoriesObs = new MutableLiveData<>();
+    private CategoryRepository categoryRepository;
 
     @Inject
-    public UploadViewModel(UploadRepository uploadRepository) {
+    public UploadViewModel(
+            UploadRepository uploadRepository,
+            CategoryRepository categoryRepository) {
         this.uploadRepository = uploadRepository;
+        this.categoryRepository = categoryRepository;
     }
 
-    public void uploadSongInfo(Uri avatarUri, Uri mp3Uri, Song song) {
+    public void uploadSongInfo(Uri avatarUri, Uri mp3Uri, Uri videoUri, Song song) {
         compositeDisposable.add(
                 uploadSongImage(avatarUri)
                         .map(url -> {
@@ -35,6 +44,11 @@ public class UploadViewModel extends BaseViewModel {
                         .flatMap(songObserver -> uploadSongMp3(mp3Uri)
                                 .map(url2 -> {
                                     song.setMp3Url(url2);
+                                    return song;
+                                }))
+                        .flatMap(videoObserver -> uploadSongVideo(videoUri)
+                                .map(url3 -> {
+                                    song.setVideoUrl(url3);
                                     return song;
                                 }))
                         .flatMap(songs -> uploadRepository.storeSongs(song))
@@ -47,6 +61,18 @@ public class UploadViewModel extends BaseViewModel {
         );
     }
 
+    public void getCategories() {
+        compositeDisposable.add(
+                categoryRepository.getCategories()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(onError -> notifyHideLoading())
+                        .doOnSubscribe(onSubscribe -> notifyShowLoading())
+                        .doOnComplete(this::notifyHideLoading)
+                        .subscribe(response -> getCategoriesObs.postValue(response), this::notifyError)
+        );
+    }
+
     private Observable<String> uploadSongImage(Uri uri) {
         return uploadRepository
                 .storeImage(uri)
@@ -56,6 +82,12 @@ public class UploadViewModel extends BaseViewModel {
     private Observable<String> uploadSongMp3(Uri uri) {
         return uploadRepository
                 .storeMp3(uri)
+                .flatMap(ref -> uploadRepository.getDownloadUrl(ref));
+    }
+
+    private Observable<String> uploadSongVideo(Uri uri) {
+        return uploadRepository
+                .storeVideo(uri)
                 .flatMap(ref -> uploadRepository.getDownloadUrl(ref));
     }
 }

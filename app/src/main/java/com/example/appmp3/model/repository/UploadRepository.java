@@ -22,6 +22,7 @@ public class UploadRepository {
     private static final String COLLECTION_SONGS = "songs";
     private static final String COLLECTION_IMAGES = "images";
     private static final String COLLECTION_MP3 = "mp3";
+    private static final String COLLECTION_VIDEOS = "videos";
 
     @Inject
     public UploadRepository() {
@@ -40,7 +41,11 @@ public class UploadRepository {
                         .collection(COLLECTION_SONGS)
                         .document(getCurrentUserUid() + System.currentTimeMillis())
                         .set(song)
-                        .addOnSuccessListener(unused -> emitter.onNext(true))
+                        .addOnSuccessListener(unused -> {
+                                    emitter.onNext(true);
+                                    emitter.onComplete();
+                                }
+                        )
                         .addOnFailureListener(emitter::onError)
         );
     }
@@ -54,6 +59,7 @@ public class UploadRepository {
                         .addOnSuccessListener(documentSnapshot -> {
                             Song song = documentSnapshot.toObject(Song.class);
                             emitter.onNext(song);
+                            emitter.onComplete();
                         })
                         .addOnFailureListener(emitter::onError));
     }
@@ -66,13 +72,20 @@ public class UploadRepository {
         return storageFile(COLLECTION_MP3, getCurrentUserUid() + "-mp3-" + System.currentTimeMillis(), uri);
     }
 
+    public Observable<StorageReference> storeVideo(Uri uri) {
+        return storageFile(COLLECTION_VIDEOS, getCurrentUserUid() + "-videos-" + System.currentTimeMillis(), uri);
+    }
+
     private Observable<StorageReference> storageFile(String collection, String fileName, Uri uri) {
         StorageReference fileRef = storageReference.child(collection).child(fileName);
         storageReference.child(System.currentTimeMillis() + ".");
         return Observable.create(emitter ->
                 fileRef
                         .putFile(uri)
-                        .addOnSuccessListener(taskSnapshot -> emitter.onNext(fileRef))
+                        .addOnSuccessListener(taskSnapshot -> {
+                            emitter.onNext(fileRef);
+                            emitter.onComplete();
+                        })
                         .addOnFailureListener(emitter::onError)
         );
     }
@@ -81,7 +94,10 @@ public class UploadRepository {
         return Observable.create(emitter ->
                 storageReference
                         .getDownloadUrl()
-                        .addOnSuccessListener(uri -> emitter.onNext(uri.toString()))
+                        .addOnSuccessListener(uri -> {
+                            emitter.onNext(uri.toString());
+                            emitter.onComplete();
+                        })
                         .addOnFailureListener(emitter::onError));
     }
 }

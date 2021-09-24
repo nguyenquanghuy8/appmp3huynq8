@@ -6,6 +6,7 @@ import com.example.appmp3.model.entity.Banner;
 import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.repository.BannerRepository;
 import com.example.appmp3.model.repository.CategoryRepository;
+import com.example.appmp3.model.repository.VideoCategoryRepository;
 import com.example.appmp3.view.base.BaseViewModel;
 
 import java.util.List;
@@ -13,37 +14,52 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
 public class HomeViewModel extends BaseViewModel {
     public MutableLiveData<List<Category>> categoryLiveData = new MutableLiveData<>();
     public MutableLiveData<List<Banner>> bannerLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<Category>> videoCategoryLiveData = new MutableLiveData<>();
 
     private CategoryRepository categoryRepository;
     private BannerRepository bannerRepository;
+    private VideoCategoryRepository videoCategoryRepository;
 
     @Inject
-    public HomeViewModel(BannerRepository bannerRepository, CategoryRepository categoryRepository) {
+    public HomeViewModel(BannerRepository bannerRepository, CategoryRepository categoryRepository, VideoCategoryRepository videoCategoryRepository) {
         this.categoryRepository = categoryRepository;
         this.bannerRepository = bannerRepository;
+        this.videoCategoryRepository = videoCategoryRepository;
     }
 
     public void getCategory() {
         loadingLiveData.postValue(true);
 
-        categoryRepository.fakeCategoriesData(new CategoryRepository.GetCategoryCallBack() {
-            @Override
-            public void onSuccess(List<Category> categories) {
-                categoryLiveData.postValue(categories);
-                loadingLiveData.postValue(false);
-            }
+        compositeDisposable.add(
+                categoryRepository.getCategories()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(onError -> notifyHideLoading())
+                        .doOnSubscribe(onSubscribe -> notifyShowLoading())
+                        .doOnComplete(this::notifyHideLoading)
+                        .subscribe(response -> categoryLiveData.postValue(response), this::notifyError)
+        );
+    }
 
-            @Override
-            public void onFail(String error) {
-                errorLiveData.postValue(error);
-                loadingLiveData.postValue(false);
-            }
-        });
+    public void getCategoryVideo() {
+        loadingLiveData.postValue(true);
+
+        compositeDisposable.add(
+                videoCategoryRepository.fakeCategoryData()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(onError -> notifyHideLoading())
+                        .doOnSubscribe(onSubscribe -> notifyShowLoading())
+                        .doOnComplete(this::notifyHideLoading)
+                        .subscribe(response -> videoCategoryLiveData.postValue(response), this::notifyError)
+        );
     }
 
     public void getBanner() {

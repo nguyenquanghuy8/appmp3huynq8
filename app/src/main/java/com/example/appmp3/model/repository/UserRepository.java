@@ -39,7 +39,10 @@ public class UserRepository {
         return Observable.create(emitter ->
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                         .addOnFailureListener(emitter::onError)
-                        .addOnSuccessListener(authResult -> emitter.onNext(true)));
+                        .addOnSuccessListener(authResult -> {
+                            emitter.onNext(true);
+                            emitter.onComplete();
+                        }));
     }
 
     public Observable<Boolean> storeUser(User user) {
@@ -48,7 +51,10 @@ public class UserRepository {
                         .collection(COLLECTION_USERS)
                         .document(getCurrentUserUid())
                         .set(user)
-                        .addOnSuccessListener(unused -> emitter.onNext(true))
+                        .addOnSuccessListener(unused -> {
+                            emitter.onNext(true);
+                            emitter.onComplete();
+                        })
                         .addOnFailureListener(emitter::onError)
         );
     }
@@ -62,6 +68,7 @@ public class UserRepository {
                         .addOnSuccessListener(documentSnapshot -> {
                             User user = documentSnapshot.toObject(User.class);
                             emitter.onNext(user);
+                            emitter.onComplete();
                         })
                         .addOnFailureListener(emitter::onError));
     }

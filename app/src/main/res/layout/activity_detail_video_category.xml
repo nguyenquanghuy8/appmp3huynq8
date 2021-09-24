@@ -3,12 +3,12 @@
 
     <data>
         <variable
-            name="category"
+            name="video"
             type="com.example.appmp3.model.entity.Category" />
 
         <variable
-            name="detailCategoryActivity"
-            type="com.example.appmp3.view.module.categorydetail.DetailCategoryActivity" />
+            name="detailVideoCategoryActivity"
+            type="com.example.appmp3.view.module.video.DetailVideoCategoryActivity" />
     </data>
 
     <LinearLayout
@@ -32,7 +32,7 @@
                     android:id="@+id/imgBtnBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:onClick="@{detailCategoryActivity::onClickBtnBack}"
+                    android:onClick="@{detailVideoCategoryActivity::onClickBtnBack}"
                     android:background="@drawable/ic_back" />
 
                 <TextView
@@ -45,12 +45,12 @@
                     android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    tools:text="@{category.name}" />
+                    tools:text="@{video.name}" />
             </LinearLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerDetailCategory"
+            android:id="@+id/recyclerVideoDetailCategory"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
