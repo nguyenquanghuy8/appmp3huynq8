@@ -17,6 +17,7 @@ import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityUploadBinding;
 import com.example.appmp3.model.entity.Category;
 import com.example.appmp3.model.entity.Song;
+import com.example.appmp3.ultils.IntentUtils;
 import com.example.appmp3.view.base.BaseActivity;
 import com.example.appmp3.viewmodel.UploadViewModel;
 
@@ -74,15 +75,13 @@ public class UploadActivity extends BaseActivity<ActivityUploadBinding, UploadVi
 
         getBinding().tvUploadMp3.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("audio/mp3");
+            IntentUtils.bindIntentAudio(intent);
             startActivityForResult(intent, PICK_SOUND_FILE);
         });
 
         getBinding().tvUploadVideo.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("video/*");
+            IntentUtils.bindIntentVideo(intent);
             startActivityForResult(intent, PICK_VIDEO_FILE);
         });
     }

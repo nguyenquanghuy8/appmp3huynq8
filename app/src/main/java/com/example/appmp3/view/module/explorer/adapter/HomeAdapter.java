@@ -42,34 +42,34 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void updateAdapterCategory(List<Category> mListCategory) {
         this.mListCategory.addAll(mListCategory);
-        notifyItemChanged(2);
+        notifyItemChanged(CATEGORY);
     }
 
     public void updateAdapterBanner(List<Banner> mListBanner) {
         this.mListBanner.addAll(mListBanner);
-        notifyItemChanged(0);
+        notifyItemChanged(BANNER);
     }
 
     public void updateAdapterVideo(List<Category> mListVideo) {
         this.mListVideo.addAll(mListVideo);
-        notifyItemChanged(3);
+        notifyItemChanged(VIDEO);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case 0:
+            case BANNER:
                 ItemHomeBannerBinding viewBanner = ItemHomeBannerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new BannerViewHolder(viewBanner);
-            case 1:
+                return new BannerViewHolder(viewBanner, mListBanner);
+            case SELECTION:
                 ItemHomeSelectionBinding viewSelection = ItemHomeSelectionBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
                 return new SelectionViewHolder(viewSelection, homeAdapterClickListener);
-            case 2:
+            case CATEGORY:
                 ItemHomeCategoryBinding viewCategory = ItemHomeCategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new CategoryViewHolder(viewCategory);
-            case 3:
+                return new CategoryViewHolder(viewCategory, mListCategory);
+            case VIDEO:
                 ItemHomeVideoBinding viewVideo = ItemHomeVideoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new VideoViewHolder(viewVideo);
+                return new VideoViewHolder(viewVideo, mListVideo);
             default:
                 break;
         }
@@ -81,7 +81,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (getItemViewType(position)) {
             case BANNER:
                 if (holder instanceof BannerViewHolder) {
-                    ((BannerViewHolder) holder).bind(mListBanner);
+                    ((BannerViewHolder) holder).bind();
                 }
                 break;
             case SELECTION:
@@ -91,25 +91,25 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case CATEGORY:
                 if (holder instanceof CategoryViewHolder) {
-                    ((CategoryViewHolder) holder).bind(mListCategory);
+                    ((CategoryViewHolder) holder).bind();
                 }
                 break;
             case VIDEO:
                 if (holder instanceof VideoViewHolder) {
-                    ((VideoViewHolder) holder).bind(mListVideo);
+                    ((VideoViewHolder) holder).bind();
                 }
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
+        if (position == BANNER) {
             return BANNER;
         }
-        if (position == 1) {
+        if (position == SELECTION) {
             return SELECTION;
         }
-        if (position == 2){
+        if (position == CATEGORY){
             return CATEGORY;
         }
         return VIDEO;
@@ -123,19 +123,26 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class BannerViewHolder extends RecyclerView.ViewHolder {
         private ItemHomeBannerBinding itemHomeBannerBinding;
 
-        BannerViewHolder(ItemHomeBannerBinding itemView) {
+        BannerViewHolder(ItemHomeBannerBinding itemView, List<Banner> mBanners) {
             super(itemView.getRoot());
             itemHomeBannerBinding = itemView;
-        }
-
-        public void bind(List<Banner> banners) {
-            BannerAdapter bannerAdapter = new BannerAdapter(banners);
-            itemHomeBannerBinding.recyclerViewHomeBanner.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            BannerAdapter bannerAdapter = new BannerAdapter(mBanners);
+            itemHomeBannerBinding.recyclerViewHomeBanner.setLayoutManager(new LinearLayoutManager(itemView.getRoot().getContext(), LinearLayoutManager.HORIZONTAL, false));
             itemHomeBannerBinding.recyclerViewHomeBanner.setAdapter(bannerAdapter);
 
             LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
             itemHomeBannerBinding.recyclerViewHomeBanner.setOnFlingListener(null);
             linearSnapHelper.attachToRecyclerView(itemHomeBannerBinding.recyclerViewHomeBanner);
+        }
+
+        public void bind() {
+//            BannerAdapter bannerAdapter = new BannerAdapter(banners);
+//            itemHomeBannerBinding.recyclerViewHomeBanner.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+//            itemHomeBannerBinding.recyclerViewHomeBanner.setAdapter(bannerAdapter);
+//
+//            LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+//            itemHomeBannerBinding.recyclerViewHomeBanner.setOnFlingListener(null);
+//            linearSnapHelper.attachToRecyclerView(itemHomeBannerBinding.recyclerViewHomeBanner);
         }
     }
 
@@ -159,30 +166,32 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
         private ItemHomeCategoryBinding itemHomeCategoryBinding;
 
-        public CategoryViewHolder(ItemHomeCategoryBinding itemView) {
+        public CategoryViewHolder(ItemHomeCategoryBinding itemView, List<Category> mCategories) {
             super(itemView.getRoot());
             itemHomeCategoryBinding = itemView;
+            CategoryAdapter categoryAdapter = new CategoryAdapter(mCategories, categoryClickListener);
+            itemHomeCategoryBinding.recyclerViewHomeCategory.setLayoutManager(new LinearLayoutManager(itemView.getRoot().getContext(), LinearLayoutManager.HORIZONTAL, false));
+            itemHomeCategoryBinding.recyclerViewHomeCategory.setAdapter(categoryAdapter);
         }
 
-        public void bind(List<Category> mCategories) {
-            CategoryAdapter categoryAdapter = new CategoryAdapter(mCategories, categoryClickListener);
-            itemHomeCategoryBinding.recyclerViewHomeCategory.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            itemHomeCategoryBinding.recyclerViewHomeCategory.setAdapter(categoryAdapter);
+        public void bind() {
+
         }
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
         private ItemHomeVideoBinding itemHomeVideoBinding;
 
-        public VideoViewHolder(ItemHomeVideoBinding itemView) {
+        public VideoViewHolder(ItemHomeVideoBinding itemView, List<Category> mVideos) {
             super(itemView.getRoot());
             itemHomeVideoBinding = itemView;
+            CategoryVideoAdapter categoryVideoAdapter = new CategoryVideoAdapter(mVideos, categoryVideoClickListener);
+            itemHomeVideoBinding.recyclerViewHomeVideo.setLayoutManager(new LinearLayoutManager(itemView.getRoot().getContext(), LinearLayoutManager.HORIZONTAL, false));
+            itemHomeVideoBinding.recyclerViewHomeVideo.setAdapter(categoryVideoAdapter);
         }
 
-        public void bind(List<Category> mVideos) {
-            CategoryVideoAdapter categoryVideoAdapter = new CategoryVideoAdapter(mVideos, categoryVideoClickListener);
-            itemHomeVideoBinding.recyclerViewHomeVideo.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            itemHomeVideoBinding.recyclerViewHomeVideo.setAdapter(categoryVideoAdapter);
+        public void bind() {
+
         }
     }
 

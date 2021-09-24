@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import com.bumptech.glide.Glide;
 import com.example.appmp3.R;
 import com.example.appmp3.databinding.ActivityPlayerBinding;
 import com.example.appmp3.model.entity.Song;
 import com.example.appmp3.service.PlayServices;
+import com.example.appmp3.ultils.ImageUtils;
 import com.example.appmp3.view.base.BaseActivity;
 import com.example.appmp3.viewmodel.PlayerViewModel;
 
@@ -54,9 +54,7 @@ public class PlayerActivity extends BaseActivity<ActivityPlayerBinding, PlayerVi
             }
         }, Context.BIND_AUTO_CREATE);
         getBinding().btnPlayPlayer.setImageResource(R.drawable.ic_play);
-        Glide.with(this)
-                .load(song.getAvatarSong())
-                .into(getBinding().imgAvatarSong);
+        ImageUtils.bindImage(this, getBinding().imgAvatarSong, song.getAvatarSong());
     }
 
     @Override

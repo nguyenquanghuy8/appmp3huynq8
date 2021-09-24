@@ -51,19 +51,15 @@ public class HomeViewModel extends BaseViewModel {
     public void getCategoryVideo() {
         loadingLiveData.postValue(true);
 
-        videoCategoryRepository.fakeCategoryData(new VideoCategoryRepository.GetVideoCategoryCallback() {
-            @Override
-            public void onSuccess(List<Category> videoList) {
-                videoCategoryLiveData.postValue(videoList);
-                loadingLiveData.postValue(false);
-            }
-
-            @Override
-            public void onFail(String error) {
-                errorLiveData.postValue(error);
-                loadingLiveData.postValue(false);
-            }
-        });
+        compositeDisposable.add(
+                videoCategoryRepository.fakeCategoryData()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(onError -> notifyHideLoading())
+                        .doOnSubscribe(onSubscribe -> notifyShowLoading())
+                        .doOnComplete(this::notifyHideLoading)
+                        .subscribe(response -> videoCategoryLiveData.postValue(response), this::notifyError)
+        );
     }
 
     public void getBanner() {
